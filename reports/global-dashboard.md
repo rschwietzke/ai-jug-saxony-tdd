@@ -13,7 +13,7 @@ Comprehensive evaluation of AI coding models implementing an open hashing map (`
 | **demo5** | DeepSeek V4 Flash Max | Kilo Code (VS Code) | 80 | 0 | 1.697s | 100.0% | 100.0% | 97.8% | 64.6% (42/65) |
 | **demo6** | Claude Opus 5 Ultra | Claude | 202 | 0 | 8.239s | 98.9% | 99.1% | 94.0% | 73.9% (65/88) |
 | **demo7** | Qwen 3.8 max XHigh | Kilo Code (VS Code) | 90 | 0 | 2.502s | 100.0% | 100.0% | 100.0% | 79.7% (51/64) |
-| **demo8** | Gemini 3.7 Flash High | Kilo.Code Agent (VS Code) | 66 | 0 | 2.142s | 97.9% | 99.1% | 87.5% | 70.4% (50/71) |
+| **demo8** | Gemini 3.7 Flash High | Kilo Code (VS Code) | 66 | 0 | 2.142s | 97.9% | 99.1% | 87.5% | 70.4% (50/71) |
 | **demo9** | Gemini 3.8 Flash High | Antigravity Agent (native) | 39 | 0 | 1.946s | 99.1% | 97.9% | 97.5% | 77.9% (53/68) |
 
 ## 2. Memory Footprint (JOL)

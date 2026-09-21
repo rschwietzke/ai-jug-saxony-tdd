@@ -61,7 +61,7 @@ public class GlobalJmhReportGenerator {
             Map.entry("demo5", "Demo 5 (DeepSeek V4 Flash Max / Kilo Code)"),
             Map.entry("demo6", "Demo 6 (Claude Opus 5 Ultra / Claude)"),
             Map.entry("demo7", "Demo 7 (Qwen 3.8 max XHigh / Kilo Code)"),
-            Map.entry("demo8", "Demo 8 (Gemini 3.7 Flash High / Kilo.Code Agent in VSCode)"),
+            Map.entry("demo8", "Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)"),
             Map.entry("demo9", "Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)")
     );
 

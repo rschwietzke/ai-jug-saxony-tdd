@@ -64,7 +64,7 @@ public class GlobalDashboardGenerator {
             "demo5", new String[]{"Demo 5", "DeepSeek V4 Flash Max", "Kilo Code (VS Code)"},
             "demo6", new String[]{"Demo 6", "Claude Opus 5 Ultra", "Claude"},
             "demo7", new String[]{"Demo 7", "Qwen 3.8 max XHigh", "Kilo Code (VS Code)"},
-            "demo8", new String[]{"Demo 8", "Gemini 3.7 Flash High", "Kilo.Code Agent (VS Code)"},
+            "demo8", new String[]{"Demo 8", "Gemini 3.7 Flash High", "Kilo Code (VS Code)"},
             "demo9", new String[]{"Demo 9", "Gemini 3.8 Flash High", "Antigravity Agent (native)"}
     );
 

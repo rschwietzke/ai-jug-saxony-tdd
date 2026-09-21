@@ -13,7 +13,7 @@ Comprehensive memory layout and footprint analysis comparing all TDDHashMap impl
 | **Demo 5** | DeepSeek V4 Flash Max (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 902,208 B | 90.2 |
 | **Demo 6** | Claude Opus 5 Ultra (Claude) | 24 B | 184 B | 8,504 B | 85.0 | 80,440 B | 80.4 | 902,200 B | 90.2 |
 | **Demo 7** | Qwen 3.8 max XHigh (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
-| **Demo 8** | Gemini 3.7 Flash High (Kilo.Code Agent in VSCode) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
+| **Demo 8** | Gemini 3.7 Flash High (Kilo Code in VSCode) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
 | **Demo 9** | Gemini 3.8 Flash High (Antigravity Agent natively) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
 
 ## 2. Total Internal Object Count (GC Pressure)
@@ -27,7 +27,7 @@ Comprehensive memory layout and footprint analysis comparing all TDDHashMap impl
 | **Demo 5** | DeepSeek V4 Flash Max (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
 | **Demo 6** | Claude Opus 5 Ultra (Claude) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
 | **Demo 7** | Qwen 3.8 max XHigh (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 8** | Gemini 3.7 Flash High (Kilo.Code Agent in VSCode) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| **Demo 8** | Gemini 3.7 Flash High (Kilo Code in VSCode) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
 | **Demo 9** | Gemini 3.8 Flash High (Antigravity Agent natively) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
 
 ## 3. Class Layout Details
@@ -139,7 +139,7 @@ Instance size: 32 bytes
 Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 ```
 
-### Demo 8 (Gemini 3.7 Flash High (Kilo.Code Agent in VSCode))
+### Demo 8 (Gemini 3.7 Flash High (Kilo Code in VSCode))
 ```
 org.jugsaxony.tdd.demo8.TDDHashMap object internals:
 OFF  SZ                 TYPE DESCRIPTION               VALUE

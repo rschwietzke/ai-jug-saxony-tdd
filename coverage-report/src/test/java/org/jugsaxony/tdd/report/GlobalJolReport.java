@@ -70,7 +70,7 @@ public class GlobalJolReport {
                 @SuppressWarnings("unchecked")
                 public void put(Object map, Object key, Object value) { ((org.jugsaxony.tdd.demo7.TDDHashMap<String, Integer>) map).put((String) key, (Integer) value); }
             }),
-            new ImplementationMeta("demo8", "Demo 8", "Gemini 3.7 Flash High (Kilo.Code Agent in VSCode)", org.jugsaxony.tdd.demo8.TDDHashMap.class, new MapFactory() {
+            new ImplementationMeta("demo8", "Demo 8", "Gemini 3.7 Flash High (Kilo Code in VSCode)", org.jugsaxony.tdd.demo8.TDDHashMap.class, new MapFactory() {
                 public Object create() { return new org.jugsaxony.tdd.demo8.TDDHashMap<String, Integer>(); }
                 @SuppressWarnings("unchecked")
                 public void put(Object map, Object key, Object value) { ((org.jugsaxony.tdd.demo8.TDDHashMap<String, Integer>) map).put((String) key, (Integer) value); }
