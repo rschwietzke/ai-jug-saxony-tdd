@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.jugsaxony.tdd.demo6.TDDHashMapCollisionTest
+-------------------------------------------------------------------------------
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.436 s -- in org.jugsaxony.tdd.demo6.TDDHashMapCollisionTest

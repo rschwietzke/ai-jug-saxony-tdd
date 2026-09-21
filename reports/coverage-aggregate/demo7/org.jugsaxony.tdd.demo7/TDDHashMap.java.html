@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TDDHashMap.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">coverage-report</a> &gt; <a href="../index.html" class="el_bundle">demo7</a> &gt; <a href="index.source.html" class="el_package">org.jugsaxony.tdd.demo7</a> &gt; <span class="el_source">TDDHashMap.java</span></div><h1>TDDHashMap.java</h1><pre class="source lang-java linenums">package org.jugsaxony.tdd.demo7;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Open hashing (open addressing) map with linear probing.
+ *
+ * Storage uses two parallel arrays (keys and values) — no separate
+ * chaining and no entry wrapper objects. Aside from the backing arrays
+ * (including their reallocation on growth), no allocations are made
+ * for storing entries.
+ *
+ * Deletion uses backward-shift (no tombstones), so probe chains never
+ * degrade due to removed entries. Capacity is unbounded: the table
+ * doubles whenever the load factor is exceeded.
+ *
+ * Not thread-safe. Null keys are rejected with a
+ * {@link NullPointerException}, null values are permitted. An empty
+ * key slot is represented by a null in the keys array, which is safe
+ * because keys can never be null.
+ */
+public class TDDHashMap&lt;K, V&gt;
+{
+    private static final int INITIAL_CAPACITY = 16;
+    private static final float LOAD_FACTOR = 0.75f;
+
+    private Object[] keys;
+    private Object[] values;
+    private int size;
+    private int threshold;
+
+    public TDDHashMap()
+<span class="fc" id="L36">    {</span>
+<span class="fc" id="L37">        this.keys = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L38">        this.values = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L39">        this.threshold = (int) ( INITIAL_CAPACITY * LOAD_FACTOR );</span>
+<span class="fc" id="L40">    }</span>
+
+    @SuppressWarnings( &quot;unchecked&quot; )
+    public V get( final K key )
+    {
+<span class="fc" id="L45">        Objects.requireNonNull( key, &quot;key must not be null&quot; );</span>
+
+<span class="fc" id="L47">        final Object[] k = this.keys;</span>
+<span class="fc" id="L48">        final Object[] v = this.values;</span>
+<span class="fc" id="L49">        final int mask = k.length - 1;</span>
+
+<span class="fc" id="L51">        int i = hash( key ) &amp; mask;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        while ( k[i] != null )</span>
+        {
+<span class="fc bfc" id="L54" title="All 4 branches covered.">            if ( k[i] == key || key.equals( k[i] ) )</span>
+            {
+<span class="fc" id="L56">                return (V) v[i];</span>
+            }
+<span class="fc" id="L58">            i = ( i + 1 ) &amp; mask;</span>
+        }
+
+<span class="fc" id="L61">        return null;</span>
+    }
+
+    @SuppressWarnings( &quot;unchecked&quot; )
+    public V put( final K key, final V value )
+    {
+<span class="fc" id="L67">        Objects.requireNonNull( key, &quot;key must not be null&quot; );</span>
+
+<span class="fc" id="L69">        final Object[] k = this.keys;</span>
+<span class="fc" id="L70">        final Object[] v = this.values;</span>
+<span class="fc" id="L71">        final int mask = k.length - 1;</span>
+
+<span class="fc" id="L73">        int i = hash( key ) &amp; mask;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        while ( k[i] != null )</span>
+        {
+<span class="fc bfc" id="L76" title="All 4 branches covered.">            if ( k[i] == key || key.equals( k[i] ) )</span>
+            {
+<span class="fc" id="L78">                final V previous = (V) v[i];</span>
+<span class="fc" id="L79">                v[i] = value;</span>
+<span class="fc" id="L80">                return previous;</span>
+            }
+<span class="fc" id="L82">            i = ( i + 1 ) &amp; mask;</span>
+        }
+
+<span class="fc" id="L85">        k[i] = key;</span>
+<span class="fc" id="L86">        v[i] = value;</span>
+<span class="fc" id="L87">        this.size++;</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if ( this.size &gt; this.threshold )</span>
+        {
+<span class="fc" id="L91">            grow();</span>
+        }
+
+<span class="fc" id="L94">        return null;</span>
+    }
+
+    @SuppressWarnings( &quot;unchecked&quot; )
+    public V remove( final K key )
+    {
+<span class="fc" id="L100">        Objects.requireNonNull( key, &quot;key must not be null&quot; );</span>
+
+<span class="fc" id="L102">        final Object[] k = this.keys;</span>
+<span class="fc" id="L103">        final Object[] v = this.values;</span>
+<span class="fc" id="L104">        final int mask = k.length - 1;</span>
+
+<span class="fc" id="L106">        int i = hash( key ) &amp; mask;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        while ( k[i] != null )</span>
+        {
+<span class="fc bfc" id="L109" title="All 4 branches covered.">            if ( k[i] == key || key.equals( k[i] ) )</span>
+            {
+<span class="fc" id="L111">                final V previous = (V) v[i];</span>
+<span class="fc" id="L112">                backwardShiftDelete( i, mask );</span>
+<span class="fc" id="L113">                this.size--;</span>
+<span class="fc" id="L114">                return previous;</span>
+            }
+<span class="fc" id="L116">            i = ( i + 1 ) &amp; mask;</span>
+        }
+
+<span class="fc" id="L119">        return null;</span>
+    }
+
+    public int size()
+    {
+<span class="fc" id="L124">        return this.size;</span>
+    }
+
+    @SuppressWarnings( &quot;unchecked&quot; )
+    public List&lt;K&gt; keys()
+    {
+<span class="fc" id="L130">        final List&lt;K&gt; result = new ArrayList&lt;&gt;( this.size );</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        for ( final Object key : this.keys )</span>
+        {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">            if ( key != null )</span>
+            {
+<span class="fc" id="L136">                result.add( (K) key );</span>
+            }
+        }
+
+<span class="fc" id="L140">        return result;</span>
+    }
+
+    @SuppressWarnings( &quot;unchecked&quot; )
+    public List&lt;V&gt; values()
+    {
+<span class="fc" id="L146">        final List&lt;V&gt; result = new ArrayList&lt;&gt;( this.size );</span>
+
+<span class="fc" id="L148">        final Object[] k = this.keys;</span>
+<span class="fc" id="L149">        final Object[] v = this.values;</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        for ( int i = 0; i &lt; k.length; i++ )</span>
+        {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">            if ( k[i] != null )</span>
+            {
+<span class="fc" id="L154">                result.add( (V) v[i] );</span>
+            }
+        }
+
+<span class="fc" id="L158">        return result;</span>
+    }
+
+    public void clear()
+    {
+<span class="fc" id="L163">        Arrays.fill( this.keys, null );</span>
+<span class="fc" id="L164">        Arrays.fill( this.values, null );</span>
+<span class="fc" id="L165">        this.size = 0;</span>
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * Removes the entry at {@code hole} by shifting subsequent entries
+     * whose probe path crossed {@code hole} back by one slot. This keeps
+     * every probe chain contiguous without tombstones.
+     */
+    private void backwardShiftDelete( int hole, final int mask )
+    {
+<span class="fc" id="L175">        final Object[] k = this.keys;</span>
+<span class="fc" id="L176">        final Object[] v = this.values;</span>
+
+<span class="fc" id="L178">        k[hole] = null;</span>
+<span class="fc" id="L179">        v[hole] = null;</span>
+
+<span class="fc" id="L181">        int j = hole;</span>
+        while ( true )
+        {
+<span class="fc" id="L184">            j = ( j + 1 ) &amp; mask;</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            if ( k[j] == null )</span>
+            {
+<span class="fc" id="L187">                return;</span>
+            }
+
+<span class="fc" id="L190">            final int natural = hash( k[j] ) &amp; mask;</span>
+
+            // distance from the hole to the scanned slot and to the
+            // natural slot of the entry found there (cyclic, forward)
+<span class="fc" id="L194">            final int distanceToJ = ( j - hole ) &amp; mask;</span>
+<span class="fc" id="L195">            final int distanceToNatural = ( natural - hole ) &amp; mask;</span>
+
+            // the entry at j may stay only if its natural slot lies
+            // cyclically within (hole, j]; otherwise its probe path
+            // crossed the hole and it must move back
+<span class="fc bfc" id="L200" title="All 4 branches covered.">            if ( !( distanceToNatural &gt; 0 &amp;&amp; distanceToNatural &lt;= distanceToJ ) )</span>
+            {
+<span class="fc" id="L202">                k[hole] = k[j];</span>
+<span class="fc" id="L203">                v[hole] = v[j];</span>
+<span class="fc" id="L204">                k[j] = null;</span>
+<span class="fc" id="L205">                v[j] = null;</span>
+<span class="fc" id="L206">                hole = j;</span>
+            }
+<span class="fc" id="L208">        }</span>
+    }
+
+    private void grow()
+    {
+<span class="fc" id="L213">        final int newCapacity = this.keys.length &lt;&lt; 1;</span>
+
+<span class="fc" id="L215">        final Object[] oldKeys = this.keys;</span>
+<span class="fc" id="L216">        final Object[] oldValues = this.values;</span>
+<span class="fc" id="L217">        final Object[] newKeys = new Object[newCapacity];</span>
+<span class="fc" id="L218">        final Object[] newValues = new Object[newCapacity];</span>
+<span class="fc" id="L219">        final int mask = newCapacity - 1;</span>
+
+<span class="fc bfc" id="L221" title="All 2 branches covered.">        for ( int i = 0; i &lt; oldKeys.length; i++ )</span>
+        {
+<span class="fc bfc" id="L223" title="All 2 branches covered.">            if ( oldKeys[i] != null )</span>
+            {
+<span class="fc" id="L225">                int slot = hash( oldKeys[i] ) &amp; mask;</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">                while ( newKeys[slot] != null )</span>
+                {
+<span class="fc" id="L228">                    slot = ( slot + 1 ) &amp; mask;</span>
+                }
+<span class="fc" id="L230">                newKeys[slot] = oldKeys[i];</span>
+<span class="fc" id="L231">                newValues[slot] = oldValues[i];</span>
+            }
+        }
+
+<span class="fc" id="L235">        this.keys = newKeys;</span>
+<span class="fc" id="L236">        this.values = newValues;</span>
+<span class="fc" id="L237">        this.threshold = (int) ( newCapacity * LOAD_FACTOR );</span>
+<span class="fc" id="L238">    }</span>
+
+    /**
+     * Spreads the key hash to reduce clustering with power-of-two
+     * table sizes. Bit masking keeps this safe for every hashCode,
+     * including {@link Integer#MIN_VALUE} and negative values.
+     */
+    private static int hash( final Object key )
+    {
+<span class="fc" id="L247">        final int h = key.hashCode();</span>
+<span class="fc" id="L248">        return h ^ ( h &gt;&gt;&gt; 16 );</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

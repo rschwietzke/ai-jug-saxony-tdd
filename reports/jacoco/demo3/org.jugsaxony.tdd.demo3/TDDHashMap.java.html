@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TDDHashMap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo3</a> &gt; <a href="index.source.html" class="el_package">org.jugsaxony.tdd.demo3</a> &gt; <span class="el_source">TDDHashMap.java</span></div><h1>TDDHashMap.java</h1><pre class="source lang-java linenums">package org.jugsaxony.tdd.demo3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * A non-thread-safe, open-addressed hash map using linear probing.
+ *
+ * @param &lt;K&gt; key type
+ * @param &lt;V&gt; value type
+ */
+public final class TDDHashMap&lt;K, V&gt; {
+    private static final int INITIAL_CAPACITY = 16;
+    private static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;
+
+    private static final byte EMPTY = 0;
+    private static final byte OCCUPIED = 1;
+    private static final byte DELETED = 2;
+
+    private Object[] keys;
+    private Object[] values;
+    private byte[] states;
+    private int size;
+    private int usedSlots;
+    private int resizeThreshold;
+
+<span class="fc" id="L28">    public TDDHashMap() {</span>
+<span class="fc" id="L29">        keys = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L30">        values = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L31">        states = new byte[INITIAL_CAPACITY];</span>
+<span class="fc" id="L32">        resizeThreshold = resizeThreshold(INITIAL_CAPACITY);</span>
+<span class="fc" id="L33">    }</span>
+
+    public V get(final K key) {
+<span class="fc" id="L36">        requireKey(key);</span>
+<span class="fc" id="L37">        int index = findKey(key);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        return index &lt; 0 ? null : valueAt(index);</span>
+    }
+
+    public V put(final K key, final V value) {
+<span class="fc" id="L42">        requireKey(key);</span>
+
+<span class="fc" id="L44">        int index = findKey(key);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (index &gt;= 0) {</span>
+<span class="fc" id="L46">            V previousValue = valueAt(index);</span>
+<span class="fc" id="L47">            values[index] = value;</span>
+<span class="fc" id="L48">            return previousValue;</span>
+        }
+
+<span class="fc" id="L51">        index = findInsertionSlot(key);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (size + 1 &gt; resizeThreshold) {</span>
+<span class="fc" id="L53">            resize(grownCapacity());</span>
+<span class="fc" id="L54">            index = findInsertionSlot(key);</span>
+<span class="pc bpc" id="L55" title="1 of 4 branches missed.">        } else if (states[index] == EMPTY &amp;&amp; usedSlots + 1 &gt; resizeThreshold) {</span>
+<span class="nc" id="L56">            resize(keys.length);</span>
+<span class="nc" id="L57">            index = findInsertionSlot(key);</span>
+        }
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (states[index] == EMPTY) {</span>
+<span class="fc" id="L61">            usedSlots++;</span>
+        }
+<span class="fc" id="L63">        keys[index] = key;</span>
+<span class="fc" id="L64">        values[index] = value;</span>
+<span class="fc" id="L65">        states[index] = OCCUPIED;</span>
+<span class="fc" id="L66">        size++;</span>
+<span class="fc" id="L67">        return null;</span>
+    }
+
+    public V remove(final K key) {
+<span class="fc" id="L71">        requireKey(key);</span>
+<span class="fc" id="L72">        int index = findKey(key);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (index &lt; 0) {</span>
+<span class="fc" id="L74">            return null;</span>
+        }
+
+<span class="fc" id="L77">        V previousValue = valueAt(index);</span>
+<span class="fc" id="L78">        keys[index] = null;</span>
+<span class="fc" id="L79">        values[index] = null;</span>
+<span class="fc" id="L80">        states[index] = DELETED;</span>
+<span class="fc" id="L81">        size--;</span>
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (size == 0) {</span>
+<span class="fc" id="L84">            Arrays.fill(states, EMPTY);</span>
+<span class="fc" id="L85">            usedSlots = 0;</span>
+        }
+<span class="fc" id="L87">        return previousValue;</span>
+    }
+
+    public int size() {
+<span class="fc" id="L91">        return size;</span>
+    }
+
+    public List&lt;K&gt; keys() {
+<span class="fc" id="L95">        List&lt;K&gt; result = new ArrayList&lt;&gt;(size);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (int index = 0; index &lt; states.length; index++) {</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            if (states[index] == OCCUPIED) {</span>
+<span class="fc" id="L98">                result.add(keyAt(index));</span>
+            }
+        }
+<span class="fc" id="L101">        return result;</span>
+    }
+
+    public List&lt;V&gt; values() {
+<span class="fc" id="L105">        List&lt;V&gt; result = new ArrayList&lt;&gt;(size);</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (int index = 0; index &lt; states.length; index++) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            if (states[index] == OCCUPIED) {</span>
+<span class="fc" id="L108">                result.add(valueAt(index));</span>
+            }
+        }
+<span class="fc" id="L111">        return result;</span>
+    }
+
+    public void clear() {
+<span class="fc" id="L115">        Arrays.fill(keys, null);</span>
+<span class="fc" id="L116">        Arrays.fill(values, null);</span>
+<span class="fc" id="L117">        Arrays.fill(states, EMPTY);</span>
+<span class="fc" id="L118">        size = 0;</span>
+<span class="fc" id="L119">        usedSlots = 0;</span>
+<span class="fc" id="L120">    }</span>
+
+    private int findKey(Object key) {
+<span class="fc" id="L123">        int index = initialIndex(key);</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        while (states[index] != EMPTY) {</span>
+<span class="fc bfc" id="L125" title="All 4 branches covered.">            if (states[index] == OCCUPIED &amp;&amp; key.equals(keys[index])) {</span>
+<span class="fc" id="L126">                return index;</span>
+            }
+<span class="fc" id="L128">            index = nextIndex(index);</span>
+        }
+<span class="fc" id="L130">        return -1;</span>
+    }
+
+    private int findInsertionSlot(Object key) {
+<span class="fc" id="L134">        int index = initialIndex(key);</span>
+<span class="fc" id="L135">        int firstDeleted = -1;</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        while (states[index] != EMPTY) {</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">            if (firstDeleted &lt; 0 &amp;&amp; states[index] == DELETED) {</span>
+<span class="fc" id="L138">                firstDeleted = index;</span>
+            }
+<span class="fc" id="L140">            index = nextIndex(index);</span>
+        }
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        return firstDeleted &gt;= 0 ? firstDeleted : index;</span>
+    }
+
+    private int initialIndex(Object key) {
+<span class="fc" id="L146">        int hash = key.hashCode();</span>
+<span class="fc" id="L147">        hash ^= hash &gt;&gt;&gt; 16;</span>
+<span class="fc" id="L148">        return hash &amp; (keys.length - 1);</span>
+    }
+
+    private int nextIndex(int index) {
+<span class="fc" id="L152">        return (index + 1) &amp; (keys.length - 1);</span>
+    }
+
+    private int grownCapacity() {
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if (keys.length == MAXIMUM_CAPACITY) {</span>
+<span class="nc" id="L157">            throw new IllegalStateException(&quot;Maximum map capacity reached&quot;);</span>
+        }
+<span class="fc" id="L159">        return keys.length &lt;&lt; 1;</span>
+    }
+
+    private void resize(int newCapacity) {
+<span class="fc" id="L163">        Object[] previousKeys = keys;</span>
+<span class="fc" id="L164">        Object[] previousValues = values;</span>
+<span class="fc" id="L165">        byte[] previousStates = states;</span>
+
+<span class="fc" id="L167">        keys = new Object[newCapacity];</span>
+<span class="fc" id="L168">        values = new Object[newCapacity];</span>
+<span class="fc" id="L169">        states = new byte[newCapacity];</span>
+<span class="fc" id="L170">        usedSlots = 0;</span>
+<span class="fc" id="L171">        resizeThreshold = resizeThreshold(newCapacity);</span>
+
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        for (int index = 0; index &lt; previousStates.length; index++) {</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">            if (previousStates[index] == OCCUPIED) {</span>
+<span class="fc" id="L175">                int insertionIndex = findInsertionSlot(previousKeys[index]);</span>
+<span class="fc" id="L176">                keys[insertionIndex] = previousKeys[index];</span>
+<span class="fc" id="L177">                values[insertionIndex] = previousValues[index];</span>
+<span class="fc" id="L178">                states[insertionIndex] = OCCUPIED;</span>
+<span class="fc" id="L179">                usedSlots++;</span>
+            }
+        }
+<span class="fc" id="L182">    }</span>
+
+    private static int resizeThreshold(int capacity) {
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">        if (capacity == MAXIMUM_CAPACITY) {</span>
+<span class="nc" id="L186">            return capacity - 1;</span>
+        }
+<span class="fc" id="L188">        return capacity - capacity / 3;</span>
+    }
+
+    private static void requireKey(Object key) {
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        if (key == null) {</span>
+<span class="fc" id="L193">            throw new NullPointerException(&quot;key&quot;);</span>
+        }
+<span class="fc" id="L195">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private K keyAt(int index) {
+<span class="fc" id="L199">        return (K) keys[index];</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private V valueAt(int index) {
+<span class="fc" id="L204">        return (V) values[index];</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

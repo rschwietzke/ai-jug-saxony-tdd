@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TDDHashMap.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">coverage-report</a> &gt; <a href="../index.html" class="el_bundle">demo5</a> &gt; <a href="index.source.html" class="el_package">org.jugsaxony.tdd.demo5</a> &gt; <span class="el_source">TDDHashMap.java</span></div><h1>TDDHashMap.java</h1><pre class="source lang-java linenums">package org.jugsaxony.tdd.demo5;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Open hashing map: collisions are resolved by linear probing, not chaining,
+ * and no wrapper objects are stored. Keys and values live in two parallel
+ * arrays that grow on demand. A single sentinel marks deleted slots
+ * (tombstones) so probes survive removals.
+ *
+ * &lt;p&gt;Not thread-safe. Null keys are rejected with {@link NullPointerException},
+ * null values are allowed.
+ *
+ * @param &lt;K&gt; key type
+ * @param &lt;V&gt; value type
+ */
+public class TDDHashMap&lt;K, V&gt; {
+
+<span class="fc" id="L21">    private static final Object TOMBSTONE = new Object();</span>
+    private static final int INITIAL_CAPACITY = 16;
+
+    private Object[] keys;
+    private Object[] values;
+    private int size;
+    private int tombstones;
+
+<span class="fc" id="L29">    public TDDHashMap() {</span>
+<span class="fc" id="L30">        this.keys = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L31">        this.values = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L32">    }</span>
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public V get(final K key) {
+<span class="fc" id="L36">        Objects.requireNonNull(key, &quot;key must not be null&quot;);</span>
+<span class="fc" id="L37">        final int mask = keys.length - 1;</span>
+<span class="fc" id="L38">        int index = spread(key.hashCode()) &amp; mask;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        while (keys[index] != null) {</span>
+<span class="fc" id="L40">            final Object candidate = keys[index];</span>
+<span class="fc bfc" id="L41" title="All 4 branches covered.">            if (candidate != TOMBSTONE &amp;&amp; key.equals(candidate)) {</span>
+<span class="fc" id="L42">                return (V) values[index];</span>
+            }
+<span class="fc" id="L44">            index = (index + 1) &amp; mask;</span>
+<span class="fc" id="L45">        }</span>
+<span class="fc" id="L46">        return null;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public V put(final K key, final V value) {
+<span class="fc" id="L51">        Objects.requireNonNull(key, &quot;key must not be null&quot;);</span>
+<span class="fc" id="L52">        ensureCapacity();</span>
+<span class="fc" id="L53">        final int mask = keys.length - 1;</span>
+<span class="fc" id="L54">        int index = spread(key.hashCode()) &amp; mask;</span>
+<span class="fc" id="L55">        int firstTombstone = -1;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        while (keys[index] != null) {</span>
+<span class="fc" id="L57">            final Object candidate = keys[index];</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (candidate == TOMBSTONE) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">                if (firstTombstone &lt; 0) {</span>
+<span class="fc" id="L60">                    firstTombstone = index;</span>
+                }
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            } else if (key.equals(candidate)) {</span>
+<span class="fc" id="L63">                final Object old = values[index];</span>
+<span class="fc" id="L64">                values[index] = value;</span>
+<span class="fc" id="L65">                return (V) old;</span>
+            }
+<span class="fc" id="L67">            index = (index + 1) &amp; mask;</span>
+<span class="fc" id="L68">        }</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        final int slot = firstTombstone &gt;= 0 ? firstTombstone : index;</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (firstTombstone &gt;= 0) {</span>
+<span class="fc" id="L71">            tombstones--;</span>
+        }
+<span class="fc" id="L73">        keys[slot] = key;</span>
+<span class="fc" id="L74">        values[slot] = value;</span>
+<span class="fc" id="L75">        size++;</span>
+<span class="fc" id="L76">        return null;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public V remove(final K key) {
+<span class="fc" id="L81">        Objects.requireNonNull(key, &quot;key must not be null&quot;);</span>
+<span class="fc" id="L82">        final int mask = keys.length - 1;</span>
+<span class="fc" id="L83">        int index = spread(key.hashCode()) &amp; mask;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        while (keys[index] != null) {</span>
+<span class="fc" id="L85">            final Object candidate = keys[index];</span>
+<span class="fc bfc" id="L86" title="All 4 branches covered.">            if (candidate != TOMBSTONE &amp;&amp; key.equals(candidate)) {</span>
+<span class="fc" id="L87">                final Object old = values[index];</span>
+<span class="fc" id="L88">                keys[index] = TOMBSTONE;</span>
+<span class="fc" id="L89">                values[index] = null;</span>
+<span class="fc" id="L90">                size--;</span>
+<span class="fc" id="L91">                tombstones++;</span>
+<span class="fc" id="L92">                return (V) old;</span>
+            }
+<span class="fc" id="L94">            index = (index + 1) &amp; mask;</span>
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">        return null;</span>
+    }
+
+    public int size() {
+<span class="fc" id="L100">        return size;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;K&gt; keys() {
+<span class="fc" id="L105">        final List&lt;K&gt; result = new ArrayList&lt;&gt;(size);</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (final Object key : keys) {</span>
+<span class="fc bfc" id="L107" title="All 4 branches covered.">            if (key != null &amp;&amp; key != TOMBSTONE) {</span>
+<span class="fc" id="L108">                result.add((K) key);</span>
+            }
+        }
+<span class="fc" id="L111">        return result;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;V&gt; values() {
+<span class="fc" id="L116">        final List&lt;V&gt; result = new ArrayList&lt;&gt;(size);</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        for (int i = 0; i &lt; keys.length; i++) {</span>
+<span class="pc bpc" id="L118" title="1 of 4 branches missed.">            if (keys[i] != null &amp;&amp; keys[i] != TOMBSTONE) {</span>
+<span class="fc" id="L119">                result.add((V) values[i]);</span>
+            }
+        }
+<span class="fc" id="L122">        return result;</span>
+    }
+
+    public void clear() {
+<span class="fc" id="L126">        this.keys = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L127">        this.values = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L128">        this.size = 0;</span>
+<span class="fc" id="L129">        this.tombstones = 0;</span>
+<span class="fc" id="L130">    }</span>
+
+    private static int spread(final int hash) {
+<span class="fc" id="L133">        return hash ^ (hash &gt;&gt;&gt; 16);</span>
+    }
+
+    private void ensureCapacity() {
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        if ((size + tombstones) * 2 &gt;= keys.length) {</span>
+<span class="fc" id="L138">            resize();</span>
+        }
+<span class="fc" id="L140">    }</span>
+
+    private void resize() {
+<span class="fc" id="L143">        final Object[] oldKeys = keys;</span>
+<span class="fc" id="L144">        final Object[] oldValues = values;</span>
+<span class="fc" id="L145">        this.keys = new Object[oldKeys.length * 2];</span>
+<span class="fc" id="L146">        this.values = new Object[oldValues.length * 2];</span>
+<span class="fc" id="L147">        this.size = 0;</span>
+<span class="fc" id="L148">        this.tombstones = 0;</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        for (int i = 0; i &lt; oldKeys.length; i++) {</span>
+<span class="fc" id="L150">            final Object key = oldKeys[i];</span>
+<span class="fc bfc" id="L151" title="All 4 branches covered.">            if (key != null &amp;&amp; key != TOMBSTONE) {</span>
+<span class="fc" id="L152">                insertRaw(key, oldValues[i]);</span>
+<span class="fc" id="L153">                size++;</span>
+            }
+        }
+<span class="fc" id="L156">    }</span>
+
+    private void insertRaw(final Object key, final Object value) {
+<span class="fc" id="L159">        final int mask = keys.length - 1;</span>
+<span class="fc" id="L160">        int index = spread(key.hashCode()) &amp; mask;</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        while (keys[index] != null) {</span>
+<span class="fc" id="L162">            index = (index + 1) &amp; mask;</span>
+        }
+<span class="fc" id="L164">        keys[index] = key;</span>
+<span class="fc" id="L165">        values[index] = value;</span>
+<span class="fc" id="L166">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

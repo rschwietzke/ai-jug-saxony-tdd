@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TDDHashMap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">demo2</a> &gt; <a href="index.source.html" class="el_package">org.jugsaxony.tdd.demo2</a> &gt; <span class="el_source">TDDHashMap.java</span></div><h1>TDDHashMap.java</h1><pre class="source lang-java linenums">package org.jugsaxony.tdd.demo2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * A hash map based on open addressing: collisions are resolved by linear
+ * probing inside one flat backing structure, not by separate chaining.
+ *
+ * &lt;p&gt;Keys and values live in two parallel plain {@code Object} arrays; no
+ * per-entry wrapper objects are allocated, so storing entries is
+ * allocation-free beyond the backing structure itself.&lt;/p&gt;
+ *
+ * &lt;p&gt;The map grows automatically (unbound capacity, power-of-two sizing,
+ * load factor 0.75). Deletions use backward-shift compaction, keeping probe
+ * clusters intact without tombstones. Null keys are rejected with
+ * {@link NullPointerException}; null values are permitted. This
+ * implementation is not thread-safe.&lt;/p&gt;
+ *
+ * @param &lt;K&gt; the key type
+ * @param &lt;V&gt; the value type
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+public class TDDHashMap&lt;K, V&gt;
+{
+    /** Initial capacity of the backing arrays, always a power of two. */
+    private static final int INITIAL_CAPACITY = 16;
+
+    /** Maximum fill level before the backing arrays are doubled. */
+    private static final float LOAD_FACTOR = 0.75f;
+
+    private Object[] keys;
+    private Object[] values;
+    private int size;
+    private int mask;
+    private int threshold;
+
+    /**
+     * Creates an empty map.
+     */
+    public TDDHashMap()
+<span class="fc" id="L44">    {</span>
+<span class="fc" id="L45">        keys = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L46">        values = new Object[INITIAL_CAPACITY];</span>
+<span class="fc" id="L47">        mask = INITIAL_CAPACITY - 1;</span>
+<span class="fc" id="L48">        threshold = (int) (INITIAL_CAPACITY * LOAD_FACTOR);</span>
+<span class="fc" id="L49">    }</span>
+
+    /**
+     * Returns the value stored for the given key, or {@code null} if the key
+     * is not present (a stored {@code null} value is indistinguishable from an
+     * absent key through this method).
+     *
+     * @param key the key, must not be {@code null}
+     * @return the stored value or {@code null}
+     * @throws NullPointerException if {@code key} is {@code null}
+     */
+    public V get(final K key)
+    {
+<span class="fc" id="L62">        Objects.requireNonNull(key, &quot;key must not be null&quot;);</span>
+<span class="fc" id="L63">        final var index = indexOf(key);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        return index &lt; 0 ? null : (V) values[index];</span>
+    }
+
+    /**
+     * Stores the given value under the given key, replacing any existing
+     * value.
+     *
+     * @param key the key, must not be {@code null}
+     * @param value the value, may be {@code null}
+     * @return the previously stored value, or {@code null} if the key was not present
+     * @throws NullPointerException if {@code key} is {@code null}
+     */
+    public V put(final K key, final V value)
+    {
+<span class="fc" id="L78">        Objects.requireNonNull(key, &quot;key must not be null&quot;);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (size &gt;= threshold)</span>
+        {
+<span class="fc" id="L81">            grow();</span>
+        }
+
+<span class="fc" id="L84">        var index = spread(key.hashCode()) &amp; mask;</span>
+        while (true)
+        {
+<span class="fc" id="L87">            final var k = keys[index];</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (k == null)</span>
+            {
+<span class="fc" id="L90">                keys[index] = key;</span>
+<span class="fc" id="L91">                values[index] = value;</span>
+<span class="fc" id="L92">                size++;</span>
+<span class="fc" id="L93">                return null;</span>
+            }
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            if (k.equals(key))</span>
+            {
+<span class="fc" id="L97">                final var old = (V) values[index];</span>
+<span class="fc" id="L98">                values[index] = value;</span>
+<span class="fc" id="L99">                return old;</span>
+            }
+<span class="fc" id="L101">            index = (index + 1) &amp; mask;</span>
+<span class="fc" id="L102">        }</span>
+    }
+
+    /**
+     * Removes the given key.
+     *
+     * @param key the key, must not be {@code null}
+     * @return the removed value, or {@code null} if the key was not present
+     * @throws NullPointerException if {@code key} is {@code null}
+     */
+    public V remove(final K key)
+    {
+<span class="fc" id="L114">        Objects.requireNonNull(key, &quot;key must not be null&quot;);</span>
+<span class="fc" id="L115">        final var index = indexOf(key);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (index &lt; 0)</span>
+        {
+<span class="fc" id="L118">            return null;</span>
+        }
+
+<span class="fc" id="L121">        final var old = (V) values[index];</span>
+<span class="fc" id="L122">        shiftBackward(index);</span>
+<span class="fc" id="L123">        size--;</span>
+<span class="fc" id="L124">        return old;</span>
+    }
+
+    /**
+     * Returns the number of entries in this map.
+     *
+     * @return the entry count
+     */
+    public int size()
+    {
+<span class="fc" id="L134">        return size;</span>
+    }
+
+    /**
+     * Returns a snapshot of all keys. Order is unspecified.
+     *
+     * @return the keys
+     */
+    public List&lt;K&gt; keys()
+    {
+<span class="fc" id="L144">        final var result = new ArrayList&lt;K&gt;(size);</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        for (final var k : keys)</span>
+        {
+<span class="fc bfc" id="L147" title="All 2 branches covered.">            if (k != null)</span>
+            {
+<span class="fc" id="L149">                result.add((K) k);</span>
+            }
+        }
+<span class="fc" id="L152">        return result;</span>
+    }
+
+    /**
+     * Returns a snapshot of all values, including duplicates and nulls.
+     * Order is unspecified.
+     *
+     * @return the values
+     */
+    public List&lt;V&gt; values()
+    {
+<span class="fc" id="L163">        final var result = new ArrayList&lt;V&gt;(size);</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        for (var i = 0; i &lt; keys.length; i++)</span>
+        {
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            if (keys[i] != null)</span>
+            {
+<span class="fc" id="L168">                result.add((V) values[i]);</span>
+            }
+        }
+<span class="fc" id="L171">        return result;</span>
+    }
+
+    /**
+     * Removes all entries. The map stays fully usable afterwards; the backing
+     * structure is reused.
+     */
+    public void clear()
+    {
+<span class="fc" id="L180">        Arrays.fill(keys, null);</span>
+<span class="fc" id="L181">        Arrays.fill(values, null);</span>
+<span class="fc" id="L182">        size = 0;</span>
+<span class="fc" id="L183">    }</span>
+
+    /**
+     * Finds the slot holding the given key.
+     *
+     * @param key the key, non-null
+     * @return the slot index, or {@code -1} if the key is not present
+     */
+    private int indexOf(final Object key)
+    {
+<span class="fc" id="L193">        var index = spread(key.hashCode()) &amp; mask;</span>
+        while (true)
+        {
+<span class="fc" id="L196">            final var k = keys[index];</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">            if (k == null)</span>
+            {
+<span class="fc" id="L199">                return -1;</span>
+            }
+<span class="fc bfc" id="L201" title="All 2 branches covered.">            if (k.equals(key))</span>
+            {
+<span class="fc" id="L203">                return index;</span>
+            }
+<span class="fc" id="L205">            index = (index + 1) &amp; mask;</span>
+<span class="fc" id="L206">        }</span>
+    }
+
+    /**
+     * Removes the entry at {@code removed} by shifting every following entry
+     * of the same probe cluster one step back, until the cluster ends. This
+     * keeps all other entries reachable without tombstones.
+     *
+     * @param removed the slot to clear
+     */
+    private void shiftBackward(final int removed)
+    {
+<span class="fc" id="L218">        var gap = removed;</span>
+<span class="fc" id="L219">        var index = removed;</span>
+        while (true)
+        {
+<span class="fc" id="L222">            index = (index + 1) &amp; mask;</span>
+<span class="fc" id="L223">            final var k = keys[index];</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">            if (k == null)</span>
+            {
+<span class="fc" id="L226">                keys[gap] = null;</span>
+<span class="fc" id="L227">                values[gap] = null;</span>
+<span class="fc" id="L228">                return;</span>
+            }
+            // the entry probed past the gap if its home slot is not in the
+            // cyclic range (gap, index]; then it has to move into the gap
+<span class="fc bfc" id="L232" title="All 2 branches covered.">            if (!inRange(gap, index, spread(k.hashCode()) &amp; mask))</span>
+            {
+<span class="fc" id="L234">                keys[gap] = k;</span>
+<span class="fc" id="L235">                values[gap] = values[index];</span>
+<span class="fc" id="L236">                gap = index;</span>
+            }
+<span class="fc" id="L238">        }</span>
+    }
+
+    /**
+     * Tells whether {@code home} lies within the cyclic slot range
+     * {@code (gap, index]}, i.e. the probe range that ends at {@code index}.
+     */
+    private static boolean inRange(final int gap, final int index, final int home)
+    {
+<span class="pc bpc" id="L247" title="2 of 6 branches missed.">        return gap &lt; index ? (gap &lt; home &amp;&amp; home &lt;= index)</span>
+<span class="nc bnc" id="L248" title="All 4 branches missed.">                           : (gap &lt; home || home &lt;= index);</span>
+    }
+
+    /**
+     * Doubles the backing arrays and reinserts all entries.
+     */
+    private void grow()
+    {
+<span class="fc" id="L256">        final var oldKeys = keys;</span>
+<span class="fc" id="L257">        final var oldValues = values;</span>
+<span class="fc" id="L258">        final var capacity = oldKeys.length &lt;&lt; 1;</span>
+
+<span class="fc" id="L260">        keys = new Object[capacity];</span>
+<span class="fc" id="L261">        values = new Object[capacity];</span>
+<span class="fc" id="L262">        mask = capacity - 1;</span>
+<span class="fc" id="L263">        threshold = (int) (capacity * LOAD_FACTOR);</span>
+
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        for (var i = 0; i &lt; oldKeys.length; i++)</span>
+        {
+<span class="fc" id="L267">            final var k = oldKeys[i];</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">            if (k != null)</span>
+            {
+<span class="fc" id="L270">                var index = spread(k.hashCode()) &amp; mask;</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">                while (keys[index] != null)</span>
+                {
+<span class="fc" id="L273">                    index = (index + 1) &amp; mask;</span>
+                }
+<span class="fc" id="L275">                keys[index] = k;</span>
+<span class="fc" id="L276">                values[index] = oldValues[i];</span>
+            }
+        }
+<span class="fc" id="L279">    }</span>
+
+    /**
+     * Spreads the higher bits of a hash code into the lower bits so that
+     * power-of-two masking stays well distributed.
+     */
+    private static int spread(final int hashCode)
+    {
+<span class="fc" id="L287">        return hashCode ^ (hashCode &gt;&gt;&gt; 16);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOL Memory Layout & Footprint Report — AI JUG Saxony TDD</title>
+    <style>
+        :root { --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --primary: #3b82f6; --success: #10b981; --accent: #8b5cf6; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 2rem; }
+        .container { max-width: 1300px; margin: 0 auto; }
+        .header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }
+        .header h1 { margin: 0 0 0.5rem 0; font-size: 2rem; color: #1e293b; }
+        .header p { margin: 0; color: var(--text-muted); font-size: 1.1rem; }
+        .card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        h2 { font-size: 1.4rem; margin-top: 0; margin-bottom: 1rem; color: #1e293b; display: flex; align-items: center; gap: 0.5rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #f1f5f9; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+        tr:hover { background: #f8fafc; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .badge-primary { background: #dbeafe; color: #1d4ed8; }
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-flat { background: #ede9fe; color: #5b21b6; }
+        pre { background: #0f172a; color: #f8fafc; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; line-height: 1.4; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        .nav-link { color: var(--primary); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; margin-bottom: 1rem; }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="nav-link">&larr; Back to Master Dashboard</a>
+    <div class="header">
+        <h1>Java Object Layout (JOL) Footprint Report</h1>
+        <p>Comprehensive memory footprint, GC allocation pressure, and field alignment analysis across TDD Open Hashing Map implementations.</p>
+    </div>
+    <div class="card">
+        <h2>1. Memory Footprint & Scaling Efficiency</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Implementation</th>
+                    <th>AI Model</th>
+                    <th>Shallow Size</th>
+                    <th>Empty Footprint</th>
+                    <th>N = 100</th>
+                    <th>N = 1,000</th>
+                    <th>N = 10,000</th>
+                    <th>Bytes / Entry (10k)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Demo 1</strong></td>
+                    <td><span class="badge badge-primary">Gemini 3.7 Flash High (Antigravity Agent in VSCode)</span></td>
+                    <td>40 B</td>
+                    <td>200 B</td>
+                    <td>8,520 B (85.2 B/e)</td>
+                    <td>80,456 B (80.5 B/e)</td>
+                    <td>771,144 B</td>
+                    <td><strong>77.1 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 2</strong></td>
+                    <td><span class="badge badge-primary">Kimi K3 Max (Kilo Code)</span></td>
+                    <td>32 B</td>
+                    <td>192 B</td>
+                    <td>8,512 B (85.1 B/e)</td>
+                    <td>80,448 B (80.4 B/e)</td>
+                    <td>771,136 B</td>
+                    <td><strong>77.1 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 3</strong></td>
+                    <td><span class="badge badge-primary">OpenAI 5.6 Sol Max (Kilo Code)</span></td>
+                    <td>40 B</td>
+                    <td>232 B</td>
+                    <td>8,792 B (87.9 B/e)</td>
+                    <td>82,520 B (82.5 B/e)</td>
+                    <td>787,544 B</td>
+                    <td><strong>78.8 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 4</strong></td>
+                    <td><span class="badge badge-primary">Gemma 4 31B Thinking (Kilo Code)</span></td>
+                    <td>32 B</td>
+                    <td>192 B</td>
+                    <td>8,512 B (85.1 B/e)</td>
+                    <td>80,448 B (80.4 B/e)</td>
+                    <td>771,136 B</td>
+                    <td><strong>77.1 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 5</strong></td>
+                    <td><span class="badge badge-primary">DeepSeek V4 Flash Max (Kilo Code)</span></td>
+                    <td>32 B</td>
+                    <td>192 B</td>
+                    <td>8,512 B (85.1 B/e)</td>
+                    <td>80,448 B (80.4 B/e)</td>
+                    <td>902,208 B</td>
+                    <td><strong>90.2 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 6</strong></td>
+                    <td><span class="badge badge-primary">Claude Opus 5 Ultra (Claude)</span></td>
+                    <td>24 B</td>
+                    <td>184 B</td>
+                    <td>8,504 B (85.0 B/e)</td>
+                    <td>80,440 B (80.4 B/e)</td>
+                    <td>902,200 B</td>
+                    <td><strong>90.2 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 7</strong></td>
+                    <td><span class="badge badge-primary">Qwen 3.8 max XHigh (Kilo Code)</span></td>
+                    <td>32 B</td>
+                    <td>192 B</td>
+                    <td>8,512 B (85.1 B/e)</td>
+                    <td>80,448 B (80.4 B/e)</td>
+                    <td>771,136 B</td>
+                    <td><strong>77.1 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 8</strong></td>
+                    <td><span class="badge badge-primary">Gemini 3.7 Flash High (Kilo.Code Agent in VSCode)</span></td>
+                    <td>32 B</td>
+                    <td>192 B</td>
+                    <td>8,512 B (85.1 B/e)</td>
+                    <td>80,448 B (80.4 B/e)</td>
+                    <td>771,136 B</td>
+                    <td><strong>77.1 B</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 9</strong></td>
+                    <td><span class="badge badge-primary">Gemini 3.8 Flash High (Antigravity Agent natively)</span></td>
+                    <td>32 B</td>
+                    <td>192 B</td>
+                    <td>8,512 B (85.1 B/e)</td>
+                    <td>80,448 B (80.4 B/e)</td>
+                    <td>771,136 B</td>
+                    <td><strong>77.1 B</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h2>2. Object Count & GC Pressure</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Implementation</th>
+                    <th>Model</th>
+                    <th>Empty Objs</th>
+                    <th>Objs @ 100</th>
+                    <th>Objs @ 1k</th>
+                    <th>Objs @ 10k</th>
+                    <th>Storage Strategy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Demo 1</strong></td>
+                    <td>Gemini 3.7 Flash High (Antigravity Agent in VSCode)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 2</strong></td>
+                    <td>Kimi K3 Max (Kilo Code)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 3</strong></td>
+                    <td>OpenAI 5.6 Sol Max (Kilo Code)</td>
+                    <td>4</td>
+                    <td>304</td>
+                    <td>3,004</td>
+                    <td><strong>30,004</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 4</strong></td>
+                    <td>Gemma 4 31B Thinking (Kilo Code)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 5</strong></td>
+                    <td>DeepSeek V4 Flash Max (Kilo Code)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 6</strong></td>
+                    <td>Claude Opus 5 Ultra (Claude)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 7</strong></td>
+                    <td>Qwen 3.8 max XHigh (Kilo Code)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 8</strong></td>
+                    <td>Gemini 3.7 Flash High (Kilo.Code Agent in VSCode)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Demo 9</strong></td>
+                    <td>Gemini 3.8 Flash High (Antigravity Agent natively)</td>
+                    <td>3</td>
+                    <td>303</td>
+                    <td>3,003</td>
+                    <td><strong>30,003</strong></td>
+                    <td><span class="badge badge-primary">Node/Entry Objects</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h2>3. Detailed Class Layouts (Object Field Alignment)</h2>
+        <div class="grid">
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 1 — Gemini 3.7 Flash High (Antigravity Agent in VSCode)</h3>
+                <pre>org.jugsaxony.tdd.demo1.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.capacity       N/A
+ 20   4                  int TDDHashMap.mask           N/A
+ 24   4                  int TDDHashMap.threshold      N/A
+ 28   4                float TDDHashMap.loadFactor     N/A
+ 32   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 36   4   java.lang.Object[] TDDHashMap.values         N/A
+Instance size: 40 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 2 — Kimi K3 Max (Kilo Code)</h3>
+                <pre>org.jugsaxony.tdd.demo2.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.mask           N/A
+ 20   4                  int TDDHashMap.threshold      N/A
+ 24   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 28   4   java.lang.Object[] TDDHashMap.values         N/A
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 3 — OpenAI 5.6 Sol Max (Kilo Code)</h3>
+                <pre>org.jugsaxony.tdd.demo3.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION                  VALUE
+  0   8                      (object header: mark)        N/A
+  8   4                      (object header: class)       N/A
+ 12   4                  int TDDHashMap.size              N/A
+ 16   4                  int TDDHashMap.usedSlots         N/A
+ 20   4                  int TDDHashMap.resizeThreshold   N/A
+ 24   4   java.lang.Object[] TDDHashMap.keys              N/A
+ 28   4   java.lang.Object[] TDDHashMap.values            N/A
+ 32   4               byte[] TDDHashMap.states            N/A
+ 36   4                      (object alignment gap)       
+Instance size: 40 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 4 — Gemma 4 31B Thinking (Kilo Code)</h3>
+                <pre>org.jugsaxony.tdd.demo4.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.capacity       N/A
+ 20   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 24   4   java.lang.Object[] TDDHashMap.values         N/A
+ 28   4                      (object alignment gap)    
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 5 — DeepSeek V4 Flash Max (Kilo Code)</h3>
+                <pre>org.jugsaxony.tdd.demo5.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.tombstones     N/A
+ 20   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 24   4   java.lang.Object[] TDDHashMap.values         N/A
+ 28   4                      (object alignment gap)    
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 6 — Claude Opus 5 Ultra (Claude)</h3>
+                <pre>org.jugsaxony.tdd.demo6.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 20   4   java.lang.Object[] TDDHashMap.values         N/A
+Instance size: 24 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 7 — Qwen 3.8 max XHigh (Kilo Code)</h3>
+                <pre>org.jugsaxony.tdd.demo7.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.threshold      N/A
+ 20   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 24   4   java.lang.Object[] TDDHashMap.values         N/A
+ 28   4                      (object alignment gap)    
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 8 — Gemini 3.7 Flash High (Kilo.Code Agent in VSCode)</h3>
+                <pre>org.jugsaxony.tdd.demo8.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.threshold      N/A
+ 20   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 24   4   java.lang.Object[] TDDHashMap.values         N/A
+ 28   4                      (object alignment gap)    
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</pre>
+            </div>
+            <div>
+                <h3 style="margin-top:0; font-size:1.1rem;">Demo 9 — Gemini 3.8 Flash High (Antigravity Agent natively)</h3>
+                <pre>org.jugsaxony.tdd.demo9.TDDHashMap object internals:
+OFF  SZ                 TYPE DESCRIPTION               VALUE
+  0   8                      (object header: mark)     N/A
+  8   4                      (object header: class)    N/A
+ 12   4                  int TDDHashMap.size           N/A
+ 16   4                  int TDDHashMap.threshold      N/A
+ 20   4   java.lang.Object[] TDDHashMap.keys           N/A
+ 24   4   java.lang.Object[] TDDHashMap.values         N/A
+ 28   4                      (object alignment gap)    
+Instance size: 32 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</pre>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
