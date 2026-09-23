@@ -47,6 +47,7 @@ public class GlobalDashboardGenerator {
             double getMissThroughput,
             double putThroughput,
             double hitCycles,
+            double hitInstructions,
             double hitIpc,
             double hitBranchMissRate,
             double hitL1MissRate
@@ -162,6 +163,7 @@ public class GlobalDashboardGenerator {
 
             GlobalJmhReportGenerator.BenchmarkEntry hitEntry = hitEntries.get(modId);
             double hitCycles = hitEntry != null ? hitEntry.cycles() : 0.0;
+            double hitInstructions = hitEntry != null ? hitEntry.instructions() : 0.0;
             double hitIpc = hitEntry != null ? hitEntry.ipc() : 0.0;
             double hitBranchMiss = hitEntry != null ? hitEntry.branchMissRate() : 0.0;
             double hitL1Miss = hitEntry != null ? hitEntry.l1DcacheMissRate() : 0.0;
@@ -181,6 +183,7 @@ public class GlobalDashboardGenerator {
                     miss,
                     put,
                     hitCycles,
+                    hitInstructions,
                     hitIpc,
                     hitBranchMiss,
                     hitL1Miss
@@ -395,25 +398,36 @@ public class GlobalDashboardGenerator {
                 );
             }
             out.println();
-            out.println("## 3. Microbenchmark Throughput (JMH)");
+            boolean anyPerf = summaries.stream().anyMatch(TddMapSummary::hasPerf);
+            out.println("## 3. Microbenchmark Throughput & Hardware Performance Counters (JMH)");
             out.println();
-            out.println("| Module | AI Model | Get Hit (ops/µs) | Get Miss (ops/µs) | Put (ops/µs) | Cycles/op | IPC |");
-            out.println("| :--- | :--- | :--- | :--- | :--- | :--- | :--- |");
-            for (TddMapSummary s : summaries) {
-                String hitStr = s.getHitThroughput() > 0 ? String.format("%.2f", s.getHitThroughput()) : "-";
-                String missStr = s.getMissThroughput() > 0 ? String.format("%.2f", s.getMissThroughput()) : "-";
-                String putStr = s.putThroughput() > 0 ? String.format("%.2f", s.putThroughput()) : "-";
-                String cyclesStr = s.hitCycles() > 0 ? String.format("%.1f", s.hitCycles()) : "-";
-                String ipcStr = s.hitIpc() > 0 ? String.format("%.2f", s.hitIpc()) : "-";
-                out.printf("| **%s** | %s | %s | %s | %s | %s | %s |%n",
-                        s.id(),
-                        s.aiModel(),
-                        hitStr,
-                        missStr,
-                        putStr,
-                        cyclesStr,
-                        ipcStr
-                );
+            if (anyPerf) {
+                out.println("> ⚡ **Hardware Performance Counters Enabled**: Includes Linux `perf` metrics (Cycles/op, Instructions/op, IPC, Branch Mispredictions, L1 D-Cache Misses).");
+                out.println();
+                out.println("| Module | AI Model | Put (ops/µs) | Get Hit (ops/µs) | Get Miss (ops/µs) | Cycles/op | Insns/op | IPC | Branch Miss % | L1 Miss % |");
+                out.println("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |");
+                for (TddMapSummary s : summaries) {
+                    String hitStr = s.getHitThroughput() > 0 ? String.format("%.2f", s.getHitThroughput()) : "-";
+                    String missStr = s.getMissThroughput() > 0 ? String.format("%.2f", s.getMissThroughput()) : "-";
+                    String putStr = s.putThroughput() > 0 ? String.format("%.2f", s.putThroughput()) : "-";
+                    String cyclesStr = s.hitCycles() > 0 ? String.format("%.1f", s.hitCycles()) : "-";
+                    String insnsStr = s.hitInstructions() > 0 ? String.format("%.1f", s.hitInstructions()) : "-";
+                    String ipcStr = s.hitIpc() > 0 ? String.format("%.2f", s.hitIpc()) : "-";
+                    String branchStr = s.hitBranchMissRate() > 0 ? String.format("%.2f%%", s.hitBranchMissRate()) : "-";
+                    String l1Str = s.hitL1MissRate() > 0 ? String.format("%.2f%%", s.hitL1MissRate()) : "-";
+                    out.printf("| **%s** | %s | %s | %s | %s | %s | %s | %s | %s | %s |%n",
+                            s.id(), s.aiModel(), putStr, hitStr, missStr, cyclesStr, insnsStr, ipcStr, branchStr, l1Str);
+                }
+            } else {
+                out.println("| Module | AI Model | Put (ops/µs) | Get Hit (ops/µs) | Get Miss (ops/µs) |");
+                out.println("| :--- | :--- | :--- | :--- | :--- |");
+                for (TddMapSummary s : summaries) {
+                    String hitStr = s.getHitThroughput() > 0 ? String.format("%.2f", s.getHitThroughput()) : "-";
+                    String missStr = s.getMissThroughput() > 0 ? String.format("%.2f", s.getMissThroughput()) : "-";
+                    String putStr = s.putThroughput() > 0 ? String.format("%.2f", s.putThroughput()) : "-";
+                    out.printf("| **%s** | %s | %s | %s | %s |%n",
+                            s.id(), s.aiModel(), putStr, hitStr, missStr);
+                }
             }
         }
     }
@@ -452,6 +466,9 @@ public class GlobalDashboardGenerator {
             out.println("        .badge-tool { background: #f3e8ff; color: #7e22ce; }");
             out.println("        .badge-success { background: #dcfce7; color: #15803d; }");
             out.println("        .badge-danger { background: #fee2e2; color: #b91c1c; }");
+            out.println("        .badge-perf { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-weight: 700; }");
+            out.println("        .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }");
+            out.println("        .numeric { text-align: right; font-variant-numeric: tabular-nums; }");
             out.println("        .progress { background: #e2e8f0; border-radius: 9999px; height: 8px; width: 100px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 0.5rem; }");
             out.println("        .progress-bar { height: 100%; border-radius: 9999px; }");
             out.println("        .bar-green { background: #10b981; }");
@@ -543,6 +560,64 @@ public class GlobalDashboardGenerator {
             out.println("        </table>");
             out.println("    </div>");
 
+            // JMH Microbenchmark Performance & Hardware Counters Card
+            boolean anyPerf = summaries.stream().anyMatch(TddMapSummary::hasPerf);
+            out.println("    <div class=\"card\">");
+            out.printf("        <h2><span>🚀 TDDHashMap — Microbenchmark Performance & Hardware Counters (JMH)%s</span> <a href=\"jmh-report.html\" class=\"btn\">View Full JMH Report &rarr;</a></h2>%n",
+                    anyPerf ? " <span class=\"badge badge-perf\">🔬 Hardware Counters Enabled</span>" : "");
+            out.println("        <table>");
+            out.println("            <thead>");
+            out.println("                <tr>");
+            out.println("                    <th>Submodule</th>");
+            out.println("                    <th>AI Model</th>");
+            out.println("                    <th>Toolchain</th>");
+            out.println("                    <th class=\"numeric\">Put (ops/µs)</th>");
+            out.println("                    <th class=\"numeric\">Get Hit (ops/µs)</th>");
+            out.println("                    <th class=\"numeric\">Get Miss (ops/µs)</th>");
+            if (anyPerf) {
+                out.println("                    <th class=\"numeric\">Cycles/op</th>");
+                out.println("                    <th class=\"numeric\">Insns/op</th>");
+                out.println("                    <th class=\"numeric\">IPC</th>");
+                out.println("                    <th class=\"numeric\">Branch Miss %</th>");
+                out.println("                    <th class=\"numeric\">L1 Miss %</th>");
+            }
+            out.println("                </tr>");
+            out.println("            </thead>");
+            out.println("            <tbody>");
+
+            for (TddMapSummary s : summaries) {
+                String putStr = s.putThroughput() > 0 ? String.format("%.2f", s.putThroughput()) : "-";
+                String hitStr = s.getHitThroughput() > 0 ? String.format("%.2f", s.getHitThroughput()) : "-";
+                String missStr = s.getMissThroughput() > 0 ? String.format("%.2f", s.getMissThroughput()) : "-";
+
+                out.println("                <tr>");
+                out.printf("                    <td><strong>%s</strong></td>%n", s.id());
+                out.printf("                    <td><span class=\"badge badge-model\">%s</span></td>%n", s.aiModel());
+                out.printf("                    <td><span class=\"badge badge-tool\">%s</span></td>%n", s.toolchain());
+                out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", putStr);
+                out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", hitStr);
+                out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", missStr);
+
+                if (anyPerf) {
+                    String cyclesStr = s.hitCycles() > 0 ? String.format("%.1f", s.hitCycles()) : "-";
+                    String insnsStr = s.hitInstructions() > 0 ? String.format("%.1f", s.hitInstructions()) : "-";
+                    String ipcStr = s.hitIpc() > 0 ? String.format("%.2f", s.hitIpc()) : "-";
+                    String branchStr = s.hitBranchMissRate() > 0 ? String.format("%.2f%%", s.hitBranchMissRate()) : "-";
+                    String l1Str = s.hitL1MissRate() > 0 ? String.format("%.2f%%", s.hitL1MissRate()) : "-";
+
+                    out.printf("                    <td class=\"numeric\"><span class=\"perf-tag\">%s</span></td>%n", cyclesStr);
+                    out.printf("                    <td class=\"numeric\"><span class=\"perf-tag\">%s</span></td>%n", insnsStr);
+                    out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", ipcStr);
+                    out.printf("                    <td class=\"numeric\">%s</td>%n", branchStr);
+                    out.printf("                    <td class=\"numeric\">%s</td>%n", l1Str);
+                }
+                out.println("                </tr>");
+            }
+
+            out.println("            </tbody>");
+            out.println("        </table>");
+            out.println("    </div>");
+
             out.println("</div>");
             out.println("</body>");
             out.println("</html>");
@@ -550,6 +625,7 @@ public class GlobalDashboardGenerator {
     }
 
     private static void generateTddHashMapHtml(File targetFile, List<TddMapSummary> summaries) throws IOException {
+        boolean anyPerf = summaries.stream().anyMatch(TddMapSummary::hasPerf);
         try (PrintWriter out = new PrintWriter(new FileWriter(targetFile))) {
             out.println("<!DOCTYPE html>");
             out.println("<html lang=\"en\">");
@@ -566,14 +642,20 @@ public class GlobalDashboardGenerator {
             out.println("        .nav-link:hover { text-decoration: underline; }");
             out.println("        .card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }");
             out.println("        h1 { margin: 0 0 0.5rem 0; font-size: 2rem; color: #1e293b; }");
-            out.println("        h2 { font-size: 1.3rem; margin-top: 0; margin-bottom: 1rem; color: #1e293b; }");
+            out.println("        h2 { font-size: 1.3rem; margin-top: 0; margin-bottom: 1rem; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }");
             out.println("        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }");
             out.println("        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }");
             out.println("        th { background: #f8fafc; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }");
             out.println("        tr:hover { background: #f8fafc; }");
             out.println("        .badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }");
             out.println("        .badge-model { background: #e0f2fe; color: #0369a1; }");
+            out.println("        .badge-tool { background: #f3e8ff; color: #7e22ce; }");
             out.println("        .badge-success { background: #dcfce7; color: #15803d; }");
+            out.println("        .badge-perf { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-weight: 700; }");
+            out.println("        .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }");
+            out.println("        .numeric { text-align: right; font-variant-numeric: tabular-nums; }");
+            out.println("        .btn { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.825rem; font-weight: 600; text-decoration: none; background: #f1f5f9; color: #334155; border: 1px solid var(--border); transition: all 0.15s; }");
+            out.println("        .btn:hover { background: #e2e8f0; color: #0f172a; }");
             out.println("    </style>");
             out.println("</head>");
             out.println("<body>");
@@ -581,9 +663,10 @@ public class GlobalDashboardGenerator {
             out.println("    <a href=\"index.html\" class=\"nav-link\">&larr; Back to Master Dashboard</a>");
             out.println("    <div class=\"header\">");
             out.println("        <h1>TDDHashMap Cross-Model Quality & Performance Matrix</h1>");
-            out.println("        <p>Comprehensive breakdown of open hashing map quality, coverage, memory footprint, and mutation survival rates.</p>");
+            out.println("        <p>Comprehensive breakdown of open hashing map quality, coverage, memory footprint, and micro-architectural CPU performance.</p>");
             out.println("    </div>");
 
+            // Quality Card
             out.println("    <div class=\"card\">");
             out.println("        <h2>Quality & Mutation Matrix</h2>");
             out.println("        <table>");
@@ -616,6 +699,98 @@ public class GlobalDashboardGenerator {
                 out.printf("                    <td>%d</td>%n", q.pitKilled());
                 out.printf("                    <td>%d</td>%n", q.pitTotal());
                 out.printf("                    <td><strong>%.1f%%</strong></td>%n", q.pitScorePct());
+                out.println("                </tr>");
+            }
+
+            out.println("            </tbody>");
+            out.println("        </table>");
+            out.println("    </div>");
+
+            // JOL Memory Layout Card
+            out.println("    <div class=\"card\">");
+            out.println("        <h2><span>Memory Footprint Matrix (JOL)</span> <a href=\"jol-report.html\" class=\"btn\">View JOL Report &rarr;</a></h2>");
+            out.println("        <table>");
+            out.println("            <thead>");
+            out.println("                <tr>");
+            out.println("                    <th>Implementation</th>");
+            out.println("                    <th>Model</th>");
+            out.println("                    <th>Toolchain</th>");
+            out.println("                    <th class=\"numeric\">Shallow (B)</th>");
+            out.println("                    <th class=\"numeric\">Empty (B)</th>");
+            out.println("                    <th class=\"numeric\">N=1,000 (B)</th>");
+            out.println("                    <th class=\"numeric\">Bytes/Entry</th>");
+            out.println("                    <th class=\"numeric\">Objects @ 10k</th>");
+            out.println("                </tr>");
+            out.println("            </thead>");
+            out.println("            <tbody>");
+
+            for (TddMapSummary s : summaries) {
+                out.println("                <tr>");
+                out.printf("                    <td><strong>%s</strong></td>%n", s.id());
+                out.printf("                    <td><span class=\"badge badge-model\">%s</span></td>%n", s.aiModel());
+                out.printf("                    <td><span class=\"badge badge-tool\">%s</span></td>%n", s.toolchain());
+                out.printf("                    <td class=\"numeric\">%d B</td>%n", s.shallowSizeBytes());
+                out.printf("                    <td class=\"numeric\">%,d B</td>%n", s.emptySizeBytes());
+                out.printf("                    <td class=\"numeric\">%,d B</td>%n", s.n1000SizeBytes());
+                out.printf("                    <td class=\"numeric\"><strong>%.1f B/e</strong></td>%n", s.n1000BytesPerEntry());
+                out.printf("                    <td class=\"numeric\">%,d</td>%n", s.n10000ObjectCount());
+                out.println("                </tr>");
+            }
+
+            out.println("            </tbody>");
+            out.println("        </table>");
+            out.println("    </div>");
+
+            // JMH Microbenchmarks Card
+            out.println("    <div class=\"card\">");
+            out.printf("        <h2><span>Microbenchmark Throughput & Hardware Performance Counters (JMH)%s</span> <a href=\"jmh-report.html\" class=\"btn\">View Full JMH Report &rarr;</a></h2>%n",
+                    anyPerf ? " <span class=\"badge badge-perf\">🔬 Hardware Counters Enabled</span>" : "");
+            out.println("        <table>");
+            out.println("            <thead>");
+            out.println("                <tr>");
+            out.println("                    <th>Implementation</th>");
+            out.println("                    <th>Model</th>");
+            out.println("                    <th>Toolchain</th>");
+            out.println("                    <th class=\"numeric\">Put (ops/µs)</th>");
+            out.println("                    <th class=\"numeric\">Get Hit (ops/µs)</th>");
+            out.println("                    <th class=\"numeric\">Get Miss (ops/µs)</th>");
+            if (anyPerf) {
+                out.println("                    <th class=\"numeric\">Cycles/op</th>");
+                out.println("                    <th class=\"numeric\">Insns/op</th>");
+                out.println("                    <th class=\"numeric\">IPC</th>");
+                out.println("                    <th class=\"numeric\">Branch Miss %</th>");
+                out.println("                    <th class=\"numeric\">L1 Miss %</th>");
+            }
+            out.println("                </tr>");
+            out.println("            </thead>");
+            out.println("            <tbody>");
+
+            for (TddMapSummary s : summaries) {
+                String putStr = s.putThroughput() > 0 ? String.format("%.2f", s.putThroughput()) : "-";
+                String hitStr = s.getHitThroughput() > 0 ? String.format("%.2f", s.getHitThroughput()) : "-";
+                String missStr = s.getMissThroughput() > 0 ? String.format("%.2f", s.getMissThroughput()) : "-";
+
+                out.println("                <tr>");
+                out.printf("                    <td><strong>%s</strong></td>%n", s.id());
+                out.printf("                    <td><span class=\"badge badge-model\">%s</span></td>%n", s.aiModel());
+                out.printf("                    <td><span class=\"badge badge-tool\">%s</span></td>%n", s.toolchain());
+                out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", putStr);
+                out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", hitStr);
+                out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", missStr);
+
+                if (anyPerf) {
+                    String cyclesStr = s.hitCycles() > 0 ? String.format("%.1f", s.hitCycles()) : "-";
+                    String insnsStr = s.hitInstructions() > 0 ? String.format("%.1f", s.hitInstructions()) : "-";
+                    String ipcStr = s.hitIpc() > 0 ? String.format("%.2f", s.hitIpc()) : "-";
+                    String branchStr = s.hitBranchMissRate() > 0 ? String.format("%.2f%%", s.hitBranchMissRate()) : "-";
+                    String l1Str = s.hitL1MissRate() > 0 ? String.format("%.2f%%", s.hitL1MissRate()) : "-";
+
+                    out.printf("                    <td class=\"numeric\"><span class=\"perf-tag\">%s</span></td>%n", cyclesStr);
+                    out.printf("                    <td class=\"numeric\"><span class=\"perf-tag\">%s</span></td>%n", insnsStr);
+                    out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", ipcStr);
+                    out.printf("                    <td class=\"numeric\">%s</td>%n", branchStr);
+                    out.printf("                    <td class=\"numeric\">%s</td>%n", l1Str);
+                }
                 out.println("                </tr>");
             }
 

@@ -63,10 +63,30 @@ public class TDDHashMapBenchmark {
     }
 
     public static void main(String[] args) throws Exception {
+        fixClasspathForFork();
         Options opt = new OptionsBuilder()
                 .parent(new CommandLineOptions(args))
                 .include(TDDHashMapBenchmark.class.getSimpleName())
                 .build();
         new Runner(opt).run();
     }
+
+    private static void fixClasspathForFork() {
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        if (cl instanceof java.net.URLClassLoader ucl) {
+            StringBuilder sb = new StringBuilder();
+            String currentCp = System.getProperty("java.class.path", "");
+            sb.append(currentCp);
+            for (java.net.URL url : ucl.getURLs()) {
+                if (!currentCp.contains(url.getPath())) {
+                    if (sb.length() > 0) {
+                        sb.append(java.io.File.pathSeparator);
+                    }
+                    sb.append(url.getPath());
+                }
+            }
+            System.setProperty("java.class.path", sb.toString());
+        }
+    }
 }
+

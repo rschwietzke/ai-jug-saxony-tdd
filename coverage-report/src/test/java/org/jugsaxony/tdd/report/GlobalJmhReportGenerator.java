@@ -268,35 +268,51 @@ public class GlobalJmhReportGenerator {
             out.println("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
             out.println("    <title>JMH Microbenchmark Cross-Project Comparison — AI JUG Saxony TDD</title>");
             out.println("    <style>");
-            out.println("        :root { --bg: #f8fafc; --card-bg: #ffffff; --text: #0f172a; --text-muted: #64748b; --border: #e2e8f0; --primary: #3b82f6; --success: #10b981; --accent: #8b5cf6; }");
-            out.println("        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 2rem; }");
-            out.println("        .container { max-width: 1300px; margin: 0 auto; }");
-            out.println("        .header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }");
-            out.println("        .header h1 { margin: 0 0 0.5rem 0; font-size: 2rem; color: #1e293b; }");
+            out.println("        :root {");
+            out.println("            --bg: #f8fafc; --card-bg: #ffffff; --card-border: #e2e8f0;");
+            out.println("            --text: #0f172a; --text-muted: #64748b; --border: #e2e8f0;");
+            out.println("            --primary: #2563eb; --success: #16a34a; --accent: #7c3aed;");
+            out.println("            --warning: #d97706; --danger: #dc2626;");
+            out.println("        }");
+            out.println("        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 2rem; line-height: 1.5; }");
+            out.println("        .container { max-width: 1400px; margin: 0 auto; }");
+            out.println("        .header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }");
+            out.println("        .header h1 { margin: 0 0 0.5rem 0; font-size: 2.2rem; font-weight: 800; color: #0f172a; }");
             out.println("        .header p { margin: 0; color: var(--text-muted); font-size: 1.1rem; }");
-            out.println("        .card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }");
-            out.println("        h2 { font-size: 1.4rem; margin-top: 0; margin-bottom: 1rem; color: #1e293b; display: flex; align-items: center; gap: 0.5rem; }");
-            out.println("        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }");
-            out.println("        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }");
-            out.println("        th { background: #f1f5f9; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }");
-            out.println("        tr:hover { background: #f8fafc; }");
-            out.println("        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }");
-            out.println("        .badge-primary { background: #dbeafe; color: #1d4ed8; }");
-            out.println("        .badge-perf { background: #fef3c7; color: #92400e; font-weight: bold; }");
+            out.println("        .card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--card-border); padding: 1.75rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }");
+            out.println("        h2 { font-size: 1.5rem; margin-top: 0; margin-bottom: 1.25rem; color: #0f172a; display: flex; align-items: center; justify-content: space-between; }");
+            out.println("        table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 1rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }");
+            out.println("        th, td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }");
+            out.println("        th { background: #f8fafc; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }");
+            out.println("        tr:hover td { background: #f8fafc; }");
+            out.println("        tr:last-child td { border-bottom: none; }");
+            out.println("        .badge { display: inline-flex; align-items: center; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }");
+            out.println("        .badge-winner { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }");
+            out.println("        .badge-primary { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }");
+            out.println("        .badge-perf { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-weight: 700; }");
             out.println("        .nav-link { color: var(--primary); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; margin-bottom: 1rem; }");
             out.println("        .nav-link:hover { text-decoration: underline; }");
-            out.println("        .bar-container { background: #e2e8f0; border-radius: 4px; height: 12px; width: 100%; max-width: 140px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 0.5rem; }");
-            out.println("        .bar-fill { background: var(--primary); height: 100%; }");
+            out.println("        .numeric { text-align: right; font-variant-numeric: tabular-nums; }");
+            out.println("        .bar-container { background: #e2e8f0; border-radius: 4px; width: 90px; height: 10px; display: inline-block; margin-right: 8px; vertical-align: middle; overflow: hidden; }");
+            out.println("        .bar-fill { background: linear-gradient(90deg, #2563eb, #6366f1); height: 100%; border-radius: 4px; }");
+            out.println("        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }");
+            out.println("        .kpi-card { background: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; border: 1px solid var(--border); }");
+            out.println("        .kpi-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }");
+            out.println("        .kpi-val { font-size: 1.4rem; font-weight: 700; color: #0f172a; }");
+            out.println("        .kpi-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }");
+            out.println("        .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }");
             out.println("    </style>");
             out.println("</head>");
             out.println("<body>");
             out.println("<div class=\"container\">");
             out.println("    <a href=\"index.html\" class=\"nav-link\">&larr; Back to Master Dashboard</a>");
             out.println("    <div class=\"header\">");
-            out.println("        <h1>JMH Microbenchmark Cross-Project Comparison</h1>");
-            out.println("        <p>Throughput and micro-architectural CPU performance analysis comparing AI model implementations (Size = 1,000 items).</p>");
+            out.println("        <div>");
+            out.println("            <h1>⚡ JMH Microbenchmark Performance Report</h1>");
+            out.println("            <p>Cross-Project Throughput & Micro-Architectural CPU Performance Analysis (Demo 1 to Demo 9)</p>");
+            out.println("        </div>");
             if (anyPerf) {
-                out.println("        <p><span class=\"badge badge-perf\">⚡ Hardware Perf Counters Enabled</span> Linux <code>perf</code> hardware counters captured per operation.</p>");
+                out.println("        <div><span class=\"badge badge-perf\">🔬 Linux perf Hardware Counters Active</span></div>");
             }
             out.println("    </div>");
 
@@ -309,54 +325,114 @@ public class GlobalJmhReportGenerator {
                 boolean opHasPerf = list.stream().anyMatch(BenchmarkEntry::hasPerfMetrics);
 
                 out.println("    <div class=\"card\">");
-                out.printf("        <h2>Operation: <code>%s</code></h2>%n", op);
-                out.println("        <table>");
-                out.println("            <thead>");
-                out.println("                <tr>");
-                out.println("                    <th>Rank</th>");
-                out.println("                    <th>Implementation</th>");
-                out.println("                    <th>AI Model</th>");
-                out.println("                    <th>Throughput (ops/µs)</th>");
-                out.println("                    <th>Margin</th>");
+                out.printf("        <h2><span>Operation: <code>%s</code></span>%s</h2>%n",
+                        op,
+                        opHasPerf ? "<span class=\"badge badge-perf\">Hardware Counters</span>" : ""
+                );
+
                 if (opHasPerf) {
-                    out.println("                    <th>Cycles/op</th>");
-                    out.println("                    <th>Insns/op</th>");
-                    out.println("                    <th>IPC</th>");
-                    out.println("                    <th>Branch Miss %</th>");
-                    out.println("                    <th>L1 D-Cache Miss %</th>");
-                }
-                out.println("                </tr>");
-                out.println("            </thead>");
-                out.println("            <tbody>");
+                    BenchmarkEntry topIpc = list.stream().filter(e -> e.ipc() > 0).max(Comparator.comparingDouble(BenchmarkEntry::ipc)).orElse(null);
+                    BenchmarkEntry lowestCycles = list.stream().filter(e -> e.cycles() > 0).min(Comparator.comparingDouble(BenchmarkEntry::cycles)).orElse(null);
+                    BenchmarkEntry lowestL1 = list.stream().filter(e -> e.l1DcacheLoads() > 0).min(Comparator.comparingDouble(BenchmarkEntry::l1DcacheMissRate)).orElse(null);
+                    BenchmarkEntry lowestBranchMiss = list.stream().filter(e -> e.branches() > 0).min(Comparator.comparingDouble(BenchmarkEntry::branchMissRate)).orElse(null);
 
-                int rank = 1;
-                for (BenchmarkEntry e : list) {
-                    double pctOfMax = maxScore > 0 ? (e.score() / maxScore) * 100.0 : 0.0;
+                    out.println("        <div class=\"kpi-grid\">");
+                    if (!list.isEmpty()) {
+                        out.printf("            <div class=\"kpi-card\"><div class=\"kpi-label\">Top Throughput</div><div class=\"kpi-val\">%,.2f <span style=\"font-size:0.9rem;\">ops/µs</span></div><div class=\"kpi-sub\">%s</div></div>%n",
+                                list.get(0).score(), list.get(0).targetId());
+                    }
+                    if (topIpc != null) {
+                        out.printf("            <div class=\"kpi-card\"><div class=\"kpi-label\">Highest IPC</div><div class=\"kpi-val\" style=\"color:#2563eb;\">%.2f <span style=\"font-size:0.9rem;\">insns/clk</span></div><div class=\"kpi-sub\">%s</div></div>%n",
+                                topIpc.ipc(), topIpc.targetId());
+                    }
+                    if (lowestCycles != null) {
+                        out.printf("            <div class=\"kpi-card\"><div class=\"kpi-label\">Lowest Cycles/op</div><div class=\"kpi-val\" style=\"color:#16a34a;\">%.1f <span style=\"font-size:0.9rem;\">cycles</span></div><div class=\"kpi-sub\">%s</div></div>%n",
+                                lowestCycles.cycles(), lowestCycles.targetId());
+                    }
+                    if (lowestL1 != null) {
+                        out.printf("            <div class=\"kpi-card\"><div class=\"kpi-label\">Lowest L1 Miss %%</div><div class=\"kpi-val\" style=\"color:#7c3aed;\">%.2f%%</div><div class=\"kpi-sub\">%s</div></div>%n",
+                                lowestL1.l1DcacheMissRate(), lowestL1.targetId());
+                    }
+                    if (lowestBranchMiss != null) {
+                        out.printf("            <div class=\"kpi-card\"><div class=\"kpi-label\">Lowest Branch Miss %%</div><div class=\"kpi-val\" style=\"color:#d97706;\">%.2f%%</div><div class=\"kpi-sub\">%s</div></div>%n",
+                                lowestBranchMiss.branchMissRate(), lowestBranchMiss.targetId());
+                    }
+                    out.println("        </div>");
+
+                    out.println("        <table>");
+                    out.println("            <thead>");
                     out.println("                <tr>");
-                    out.printf("                    <td>%d</td>%n", rank++);
-                    out.printf("                    <td><strong>%s</strong></td>%n", e.targetId());
-                    out.printf("                    <td><span class=\"badge badge-primary\">%s</span></td>%n", e.modelName());
-                    out.printf("                    <td><strong>%,.2f</strong> <div class=\"bar-container\"><div class=\"bar-fill\" style=\"width: %.1f%%;\"></div></div></td>%n", e.score(), pctOfMax);
-                    out.printf("                    <td>± %,.2f</td>%n", e.scoreError());
+                    out.println("                    <th>Rank</th>");
+                    out.println("                    <th>Target</th>");
+                    out.println("                    <th>AI Model</th>");
+                    out.println("                    <th class=\"numeric\">Throughput (ops/µs)</th>");
+                    out.println("                    <th class=\"numeric\">Margin (±)</th>");
+                    out.println("                    <th class=\"numeric\">Cycles/op</th>");
+                    out.println("                    <th class=\"numeric\">Insns/op</th>");
+                    out.println("                    <th class=\"numeric\">IPC</th>");
+                    out.println("                    <th class=\"numeric\">Branch Miss %</th>");
+                    out.println("                    <th class=\"numeric\">L1 Miss %</th>");
+                    out.println("                </tr>");
+                    out.println("            </thead>");
+                    out.println("            <tbody>");
 
-                    if (opHasPerf) {
+                    int rank = 1;
+                    for (BenchmarkEntry e : list) {
+                        double pct = (e.score() / maxScore) * 100.0;
+                        String rankBadge = (rank == 1) ? "<span class=\"badge badge-winner\">🥇 #1</span>" : ("#" + rank);
+
                         String cyclesStr = e.cycles() > 0 ? String.format("%.1f", e.cycles()) : "-";
                         String insnsStr = e.instructions() > 0 ? String.format("%.1f", e.instructions()) : "-";
                         String ipcStr = e.ipc() > 0 ? String.format("%.2f", e.ipc()) : "-";
                         String branchMissStr = e.branches() > 0 ? String.format("%.2f%%", e.branchMissRate()) : "-";
                         String l1MissStr = e.l1DcacheLoads() > 0 ? String.format("%.2f%%", e.l1DcacheMissRate()) : "-";
 
-                        out.printf("                    <td>%s</td>%n", cyclesStr);
-                        out.printf("                    <td>%s</td>%n", insnsStr);
-                        out.printf("                    <td>%s</td>%n", ipcStr);
-                        out.printf("                    <td>%s</td>%n", branchMissStr);
-                        out.printf("                    <td>%s</td>%n", l1MissStr);
+                        out.println("                <tr>");
+                        out.printf("                    <td>%s</td>%n", rankBadge);
+                        out.printf("                    <td><strong>%s</strong></td>%n", e.targetId());
+                        out.printf("                    <td><span class=\"badge badge-primary\">%s</span></td>%n", e.modelName());
+                        out.printf("                    <td class=\"numeric\"><div class=\"bar-container\"><div class=\"bar-fill\" style=\"width: %.1f%%;\"></div></div> <strong>%,.2f</strong></td>%n", pct, e.score());
+                        out.printf("                    <td class=\"numeric\" style=\"color:var(--text-muted);\">± %,.2f</td>%n", e.scoreError());
+                        out.printf("                    <td class=\"numeric\"><span class=\"perf-tag\">%s</span></td>%n", cyclesStr);
+                        out.printf("                    <td class=\"numeric\"><span class=\"perf-tag\">%s</span></td>%n", insnsStr);
+                        out.printf("                    <td class=\"numeric\"><strong>%s</strong></td>%n", ipcStr);
+                        out.printf("                    <td class=\"numeric\">%s</td>%n", branchMissStr);
+                        out.printf("                    <td class=\"numeric\">%s</td>%n", l1MissStr);
+                        out.println("                </tr>");
+                        rank++;
                     }
+                    out.println("            </tbody>");
+                    out.println("        </table>");
+                } else {
+                    out.println("        <table>");
+                    out.println("            <thead>");
+                    out.println("                <tr>");
+                    out.println("                    <th>Rank</th>");
+                    out.println("                    <th>Target</th>");
+                    out.println("                    <th>AI Model</th>");
+                    out.println("                    <th class=\"numeric\">Throughput (ops/µs)</th>");
+                    out.println("                    <th class=\"numeric\">Margin (±)</th>");
                     out.println("                </tr>");
-                }
+                    out.println("            </thead>");
+                    out.println("            <tbody>");
 
-                out.println("            </tbody>");
-                out.println("        </table>");
+                    int rank = 1;
+                    for (BenchmarkEntry e : list) {
+                        double pct = (e.score() / maxScore) * 100.0;
+                        String rankBadge = (rank == 1) ? "<span class=\"badge badge-winner\">🥇 #1</span>" : ("#" + rank);
+
+                        out.println("                <tr>");
+                        out.printf("                    <td>%s</td>%n", rankBadge);
+                        out.printf("                    <td><strong>%s</strong></td>%n", e.targetId());
+                        out.printf("                    <td><span class=\"badge badge-primary\">%s</span></td>%n", e.modelName());
+                        out.printf("                    <td class=\"numeric\"><div class=\"bar-container\"><div class=\"bar-fill\" style=\"width: %.1f%%;\"></div></div> <strong>%,.2f</strong></td>%n", pct, e.score());
+                        out.printf("                    <td class=\"numeric\" style=\"color:var(--text-muted);\">± %,.2f</td>%n", e.scoreError());
+                        out.println("                </tr>");
+                        rank++;
+                    }
+                    out.println("            </tbody>");
+                    out.println("        </table>");
+                }
                 out.println("    </div>");
             }
 

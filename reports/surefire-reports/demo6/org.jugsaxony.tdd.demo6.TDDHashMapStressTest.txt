@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jugsaxony.tdd.demo6.TDDHashMapStressTest
 -------------------------------------------------------------------------------
-Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.706 s -- in org.jugsaxony.tdd.demo6.TDDHashMapStressTest
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.109 s -- in org.jugsaxony.tdd.demo6.TDDHashMapStressTest

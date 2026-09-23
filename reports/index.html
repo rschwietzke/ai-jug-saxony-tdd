@@ -30,6 +30,9 @@
         .badge-tool { background: #f3e8ff; color: #7e22ce; }
         .badge-success { background: #dcfce7; color: #15803d; }
         .badge-danger { background: #fee2e2; color: #b91c1c; }
+        .badge-perf { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-weight: 700; }
+        .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }
+        .numeric { text-align: right; font-variant-numeric: tabular-nums; }
         .progress { background: #e2e8f0; border-radius: 9999px; height: 8px; width: 100px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 0.5rem; }
         .progress-bar { height: 100%; border-radius: 9999px; }
         .bar-green { background: #10b981; }
@@ -57,9 +60,9 @@
     <div class="grid-stats">
         <div class="stat-card"><div class="label">Evaluated Submodules</div><div class="value">9 Demos</div></div>
         <div class="stat-card"><div class="label">Passing Test Suites</div><div class="value" style="color:#15803d;">9 / 9</div></div>
-        <div class="stat-card"><div class="label">Total Tests Executed</div><div class="value">629</div></div>
+        <div class="stat-card"><div class="label">Total Tests Executed</div><div class="value">351</div></div>
         <div class="stat-card"><div class="label">Avg JaCoCo Instruction Cov</div><div class="value">98.2%</div></div>
-        <div class="stat-card"><div class="label">Avg PIT Mutation Score</div><div class="value">71.3%</div></div>
+        <div class="stat-card"><div class="label">Avg PIT Mutation Score</div><div class="value">71.4%</div></div>
     </div>
     <div class="card">
         <h2><span>Model Implementations & Quality Overview</span> <a href="tddhashmap.html" class="btn">View Detailed Matrix &rarr;</a></h2>
@@ -84,118 +87,257 @@
                     <td><strong>demo1</strong></td>
                     <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
                     <td><span class="badge badge-tool">Antigravity Agent (VS Code)</span></td>
-                    <td><span class="badge badge-success">21 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.63s)</span></td>
+                    <td><span class="badge badge-success">21 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.56s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:99.2%;"></div></div> 99.2%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:93.2%;"></div></div> 93.2%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:72.6%;"></div></div> 72.6% (53/73)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:74.5%;"></div></div> 74.5% (70/94)</td>
                     <td>200 B</td>
                     <td>80,456 B <span style="color:#64748b; font-size:0.8rem;">(80.5 B/e)</span></td>
-                    <td><strong>58.3 ops/µs</strong></td>
+                    <td><strong>68.0 ops/µs</strong></td>
                     <td><a href="jacoco/demo1/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo1/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo2</strong></td>
                     <td><span class="badge badge-model">Kimi K3 Max</span></td>
                     <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
-                    <td><span class="badge badge-success">74 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.63s)</span></td>
+                    <td><span class="badge badge-success">37 passed</span> <span style="color:#64748b; font-size:0.8rem;">(0.67s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:97.7%;"></div></div> 97.7%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:85.7%;"></div></div> 85.7%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:74.6%;"></div></div> 74.6% (47/63)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:74.7%;"></div></div> 74.7% (62/83)</td>
                     <td>192 B</td>
                     <td>80,448 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>58.1 ops/µs</strong></td>
+                    <td><strong>78.3 ops/µs</strong></td>
                     <td><a href="jacoco/demo2/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo2/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo3</strong></td>
                     <td><span class="badge badge-model">OpenAI 5.6 Sol Max</span></td>
                     <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
-                    <td><span class="badge badge-success">44 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.29s)</span></td>
+                    <td><span class="badge badge-success">22 passed</span> <span style="color:#64748b; font-size:0.8rem;">(0.71s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:96.1%;"></div></div> 96.1%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:93.8%;"></div></div> 93.8%</td>
-                    <td><div class="progress"><div class="progress-bar bar-red" style="width:50.0%;"></div></div> 50.0% (38/76)</td>
+                    <td><div class="progress"><div class="progress-bar bar-red" style="width:50.0%;"></div></div> 50.0% (50/100)</td>
                     <td>232 B</td>
                     <td>82,520 B <span style="color:#64748b; font-size:0.8rem;">(82.5 B/e)</span></td>
-                    <td><strong>41.0 ops/µs</strong></td>
+                    <td><strong>68.0 ops/µs</strong></td>
                     <td><a href="jacoco/demo3/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo3/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo4</strong></td>
                     <td><span class="badge badge-model">Gemma 4 31B Thinking</span></td>
                     <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
-                    <td><span class="badge badge-success">13 passed</span> <span style="color:#64748b; font-size:0.8rem;">(0.25s)</span></td>
+                    <td><span class="badge badge-success">13 passed</span> <span style="color:#64748b; font-size:0.8rem;">(0.18s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:95.0%;"></div></div> 95.0%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:89.5%;"></div></div> 89.5%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:78.0%;"></div></div> 78.0% (39/50)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:75.4%;"></div></div> 75.4% (52/69)</td>
                     <td>192 B</td>
                     <td>80,448 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>40.0 ops/µs</strong></td>
+                    <td><strong>35.9 ops/µs</strong></td>
                     <td><a href="jacoco/demo4/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo4/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo5</strong></td>
                     <td><span class="badge badge-model">DeepSeek V4 Flash Max</span></td>
                     <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
-                    <td><span class="badge badge-success">80 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.70s)</span></td>
+                    <td><span class="badge badge-success">40 passed</span> <span style="color:#64748b; font-size:0.8rem;">(0.79s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:100.0%;"></div></div> 100.0%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:97.8%;"></div></div> 97.8%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:64.6%;"></div></div> 64.6% (42/65)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:64.4%;"></div></div> 64.4% (56/87)</td>
                     <td>192 B</td>
                     <td>80,448 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>49.4 ops/µs</strong></td>
+                    <td><strong>67.9 ops/µs</strong></td>
                     <td><a href="jacoco/demo5/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo5/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo6</strong></td>
                     <td><span class="badge badge-model">Claude Opus 5 Ultra</span></td>
                     <td><span class="badge badge-tool">Claude</span></td>
-                    <td><span class="badge badge-success">202 passed</span> <span style="color:#64748b; font-size:0.8rem;">(8.24s)</span></td>
+                    <td><span class="badge badge-success">101 passed</span> <span style="color:#64748b; font-size:0.8rem;">(6.02s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:98.9%;"></div></div> 98.9%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:94.0%;"></div></div> 94.0%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:73.9%;"></div></div> 73.9% (65/88)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:74.3%;"></div></div> 74.3% (84/113)</td>
                     <td>184 B</td>
                     <td>80,440 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>39.3 ops/µs</strong></td>
+                    <td><strong>53.4 ops/µs</strong></td>
                     <td><a href="jacoco/demo6/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo6/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo7</strong></td>
                     <td><span class="badge badge-model">Qwen 3.8 max XHigh</span></td>
                     <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
-                    <td><span class="badge badge-success">90 passed</span> <span style="color:#64748b; font-size:0.8rem;">(2.50s)</span></td>
+                    <td><span class="badge badge-success">45 passed</span> <span style="color:#64748b; font-size:0.8rem;">(0.91s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:100.0%;"></div></div> 100.0%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:100.0%;"></div></div> 100.0%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:79.7%;"></div></div> 79.7% (51/64)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:79.5%;"></div></div> 79.5% (66/83)</td>
                     <td>192 B</td>
                     <td>80,448 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>52.7 ops/µs</strong></td>
+                    <td><strong>65.2 ops/µs</strong></td>
                     <td><a href="jacoco/demo7/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo7/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo8</strong></td>
                     <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
                     <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
-                    <td><span class="badge badge-success">66 passed</span> <span style="color:#64748b; font-size:0.8rem;">(2.14s)</span></td>
+                    <td><span class="badge badge-success">33 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.71s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:97.9%;"></div></div> 97.9%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:87.5%;"></div></div> 87.5%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:70.4%;"></div></div> 70.4% (50/71)</td>
+                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:69.1%;"></div></div> 69.1% (65/94)</td>
                     <td>192 B</td>
                     <td>80,448 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>52.3 ops/µs</strong></td>
+                    <td><strong>62.7 ops/µs</strong></td>
                     <td><a href="jacoco/demo8/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo8/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
                 </tr>
                 <tr>
                     <td><strong>demo9</strong></td>
                     <td><span class="badge badge-model">Gemini 3.8 Flash High</span></td>
                     <td><span class="badge badge-tool">Antigravity Agent (native)</span></td>
-                    <td><span class="badge badge-success">39 passed</span> <span style="color:#64748b; font-size:0.8rem;">(1.95s)</span></td>
+                    <td><span class="badge badge-success">39 passed</span> <span style="color:#64748b; font-size:0.8rem;">(2.29s)</span></td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:99.1%;"></div></div> 99.1%</td>
                     <td><div class="progress"><div class="progress-bar bar-green" style="width:97.5%;"></div></div> 97.5%</td>
-                    <td><div class="progress"><div class="progress-bar bar-yellow" style="width:77.9%;"></div></div> 77.9% (53/68)</td>
+                    <td><div class="progress"><div class="progress-bar bar-green" style="width:80.5%;"></div></div> 80.5% (70/87)</td>
                     <td>192 B</td>
                     <td>80,448 B <span style="color:#64748b; font-size:0.8rem;">(80.4 B/e)</span></td>
-                    <td><strong>63.3 ops/µs</strong></td>
+                    <td><strong>66.8 ops/µs</strong></td>
                     <td><a href="jacoco/demo9/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">JaCoCo</a> <a href="pit-reports/demo9/index.html" class="btn" style="padding:0.2rem 0.4rem; font-size:0.75rem;">PIT</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h2><span>🚀 TDDHashMap — Microbenchmark Performance & Hardware Counters (JMH) <span class="badge badge-perf">🔬 Hardware Counters Enabled</span></span> <a href="jmh-report.html" class="btn">View Full JMH Report &rarr;</a></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Submodule</th>
+                    <th>AI Model</th>
+                    <th>Toolchain</th>
+                    <th class="numeric">Put (ops/µs)</th>
+                    <th class="numeric">Get Hit (ops/µs)</th>
+                    <th class="numeric">Get Miss (ops/µs)</th>
+                    <th class="numeric">Cycles/op</th>
+                    <th class="numeric">Insns/op</th>
+                    <th class="numeric">IPC</th>
+                    <th class="numeric">Branch Miss %</th>
+                    <th class="numeric">L1 Miss %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>demo1</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
+                    <td><span class="badge badge-tool">Antigravity Agent (VS Code)</span></td>
+                    <td class="numeric"><strong>57.09</strong></td>
+                    <td class="numeric"><strong>68.04</strong></td>
+                    <td class="numeric"><strong>43.38</strong></td>
+                    <td class="numeric"><span class="perf-tag">34.5</span></td>
+                    <td class="numeric"><span class="perf-tag">101.0</span></td>
+                    <td class="numeric"><strong>2.93</strong></td>
+                    <td class="numeric">0.08%</td>
+                    <td class="numeric">8.80%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo2</strong></td>
+                    <td><span class="badge badge-model">Kimi K3 Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>63.60</strong></td>
+                    <td class="numeric"><strong>78.27</strong></td>
+                    <td class="numeric"><strong>77.22</strong></td>
+                    <td class="numeric"><span class="perf-tag">34.6</span></td>
+                    <td class="numeric"><span class="perf-tag">102.3</span></td>
+                    <td class="numeric"><strong>2.95</strong></td>
+                    <td class="numeric">0.08%</td>
+                    <td class="numeric">8.38%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo3</strong></td>
+                    <td><span class="badge badge-model">OpenAI 5.6 Sol Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>35.81</strong></td>
+                    <td class="numeric"><strong>68.00</strong></td>
+                    <td class="numeric"><strong>55.54</strong></td>
+                    <td class="numeric"><span class="perf-tag">40.4</span></td>
+                    <td class="numeric"><span class="perf-tag">132.1</span></td>
+                    <td class="numeric"><strong>3.27</strong></td>
+                    <td class="numeric">0.12%</td>
+                    <td class="numeric">9.26%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo4</strong></td>
+                    <td><span class="badge badge-model">Gemma 4 31B Thinking</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>35.57</strong></td>
+                    <td class="numeric"><strong>35.95</strong></td>
+                    <td class="numeric"><strong>36.23</strong></td>
+                    <td class="numeric"><span class="perf-tag">60.7</span></td>
+                    <td class="numeric"><span class="perf-tag">102.6</span></td>
+                    <td class="numeric"><strong>1.69</strong></td>
+                    <td class="numeric">0.14%</td>
+                    <td class="numeric">10.18%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo5</strong></td>
+                    <td><span class="badge badge-model">DeepSeek V4 Flash Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>46.42</strong></td>
+                    <td class="numeric"><strong>67.91</strong></td>
+                    <td class="numeric"><strong>54.31</strong></td>
+                    <td class="numeric"><span class="perf-tag">35.6</span></td>
+                    <td class="numeric"><span class="perf-tag">110.2</span></td>
+                    <td class="numeric"><strong>3.10</strong></td>
+                    <td class="numeric">0.12%</td>
+                    <td class="numeric">6.32%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo6</strong></td>
+                    <td><span class="badge badge-model">Claude Opus 5 Ultra</span></td>
+                    <td><span class="badge badge-tool">Claude</span></td>
+                    <td class="numeric"><strong>45.39</strong></td>
+                    <td class="numeric"><strong>53.42</strong></td>
+                    <td class="numeric"><strong>72.38</strong></td>
+                    <td class="numeric"><span class="perf-tag">38.4</span></td>
+                    <td class="numeric"><span class="perf-tag">100.8</span></td>
+                    <td class="numeric"><strong>2.62</strong></td>
+                    <td class="numeric">0.13%</td>
+                    <td class="numeric">10.99%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo7</strong></td>
+                    <td><span class="badge badge-model">Qwen 3.8 max XHigh</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>56.28</strong></td>
+                    <td class="numeric"><strong>65.24</strong></td>
+                    <td class="numeric"><strong>63.47</strong></td>
+                    <td class="numeric"><span class="perf-tag">37.7</span></td>
+                    <td class="numeric"><span class="perf-tag">106.7</span></td>
+                    <td class="numeric"><strong>2.83</strong></td>
+                    <td class="numeric">0.09%</td>
+                    <td class="numeric">7.11%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo8</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>44.38</strong></td>
+                    <td class="numeric"><strong>62.74</strong></td>
+                    <td class="numeric"><strong>71.23</strong></td>
+                    <td class="numeric"><span class="perf-tag">38.6</span></td>
+                    <td class="numeric"><span class="perf-tag">105.3</span></td>
+                    <td class="numeric"><strong>2.73</strong></td>
+                    <td class="numeric">0.09%</td>
+                    <td class="numeric">6.02%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo9</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.8 Flash High</span></td>
+                    <td><span class="badge badge-tool">Antigravity Agent (native)</span></td>
+                    <td class="numeric"><strong>32.68</strong></td>
+                    <td class="numeric"><strong>66.82</strong></td>
+                    <td class="numeric"><strong>60.37</strong></td>
+                    <td class="numeric"><span class="perf-tag">35.7</span></td>
+                    <td class="numeric"><span class="perf-tag">101.7</span></td>
+                    <td class="numeric"><strong>2.85</strong></td>
+                    <td class="numeric">0.09%</td>
+                    <td class="numeric">7.73%</td>
                 </tr>
             </tbody>
         </table>

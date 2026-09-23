@@ -1,28 +1,28 @@
 Operation,TargetId,ModelName,ThroughputOpsPerUs,ScoreError,CyclesPerOp,InstructionsPerOp,IPC,CPI,BranchMissRatePct,L1DcacheMissRatePct
-"getHit","demo1","Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)",58.3114,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo2","Demo 2 (Kimi K3 Max / Kilo Code)",58.1398,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo3","Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)",40.9819,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo4","Demo 4 (Gemma 4 31B Thinking / Kilo Code)",40.0317,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo5","Demo 5 (DeepSeek V4 Flash Max / Kilo Code)",49.4031,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo6","Demo 6 (Claude Opus 5 Ultra / Claude)",39.3295,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo7","Demo 7 (Qwen 3.8 max XHigh / Kilo Code)",52.6658,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo8","Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)",52.3217,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getHit","demo9","Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)",63.3298,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo1","Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)",50.3463,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo2","Demo 2 (Kimi K3 Max / Kilo Code)",51.4352,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo3","Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)",58.8277,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo4","Demo 4 (Gemma 4 31B Thinking / Kilo Code)",35.4248,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo5","Demo 5 (DeepSeek V4 Flash Max / Kilo Code)",66.4934,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo6","Demo 6 (Claude Opus 5 Ultra / Claude)",59.4958,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo7","Demo 7 (Qwen 3.8 max XHigh / Kilo Code)",60.1565,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo8","Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)",74.2462,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"getMiss","demo9","Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)",67.3212,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo1","Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)",48.2540,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo2","Demo 2 (Kimi K3 Max / Kilo Code)",48.6104,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo3","Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)",43.6038,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo4","Demo 4 (Gemma 4 31B Thinking / Kilo Code)",25.3549,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo5","Demo 5 (DeepSeek V4 Flash Max / Kilo Code)",24.5495,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo6","Demo 6 (Claude Opus 5 Ultra / Claude)",32.8352,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo7","Demo 7 (Qwen 3.8 max XHigh / Kilo Code)",34.8080,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo8","Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)",32.5730,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
-"put","demo9","Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)",34.1173,0.0000,0.00,0.00,0.0000,0.0000,0.0000,0.0000
+"getHit","demo1","Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)",68.0359,0.0000,34.49,101.01,2.9288,0.3414,0.0792,8.8030
+"getHit","demo2","Demo 2 (Kimi K3 Max / Kilo Code)",78.2747,0.0000,34.64,102.29,2.9526,0.3387,0.0793,8.3798
+"getHit","demo3","Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)",67.9965,0.0000,40.37,132.08,3.2722,0.3056,0.1244,9.2562
+"getHit","demo4","Demo 4 (Gemma 4 31B Thinking / Kilo Code)",35.9494,0.0000,60.71,102.58,1.6897,0.5918,0.1434,10.1764
+"getHit","demo5","Demo 5 (DeepSeek V4 Flash Max / Kilo Code)",67.9067,0.0000,35.56,110.24,3.1002,0.3226,0.1166,6.3216
+"getHit","demo6","Demo 6 (Claude Opus 5 Ultra / Claude)",53.4187,0.0000,38.44,100.84,2.6235,0.3812,0.1308,10.9882
+"getHit","demo7","Demo 7 (Qwen 3.8 max XHigh / Kilo Code)",65.2404,0.0000,37.73,106.69,2.8276,0.3537,0.0926,7.1096
+"getHit","demo8","Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)",62.7392,0.0000,38.56,105.31,2.7311,0.3662,0.0940,6.0191
+"getHit","demo9","Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)",66.8236,0.0000,35.66,101.71,2.8521,0.3506,0.0930,7.7251
+"getMiss","demo1","Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)",43.3773,0.0000,48.87,100.44,2.0554,0.4865,0.0522,13.1880
+"getMiss","demo2","Demo 2 (Kimi K3 Max / Kilo Code)",77.2221,0.0000,37.03,101.62,2.7441,0.3644,0.0227,12.7434
+"getMiss","demo3","Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)",55.5421,0.0000,44.89,128.69,2.8667,0.3488,0.0454,10.1738
+"getMiss","demo4","Demo 4 (Gemma 4 31B Thinking / Kilo Code)",36.2253,0.0000,76.06,128.81,1.6934,0.5905,0.0389,13.9284
+"getMiss","demo5","Demo 5 (DeepSeek V4 Flash Max / Kilo Code)",54.3138,0.0000,44.21,117.67,2.6616,0.3757,0.0361,9.8602
+"getMiss","demo6","Demo 6 (Claude Opus 5 Ultra / Claude)",72.3839,0.0000,40.08,113.95,2.8433,0.3517,0.0316,12.5810
+"getMiss","demo7","Demo 7 (Qwen 3.8 max XHigh / Kilo Code)",63.4708,0.0000,41.70,117.01,2.8060,0.3564,0.0344,9.2360
+"getMiss","demo8","Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)",71.2261,0.0000,37.43,102.75,2.7451,0.3643,0.0445,9.7856
+"getMiss","demo9","Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)",60.3688,0.0000,38.18,102.28,2.6785,0.3733,0.0364,10.7721
+"put","demo1","Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)",57.0860,0.0000,44.61,131.54,2.9486,0.3391,0.0932,6.1086
+"put","demo2","Demo 2 (Kimi K3 Max / Kilo Code)",63.6022,0.0000,41.94,129.54,3.0888,0.3237,0.1096,6.1513
+"put","demo3","Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)",35.8116,0.0000,60.41,178.24,2.9505,0.3389,0.2847,5.8083
+"put","demo4","Demo 4 (Gemma 4 31B Thinking / Kilo Code)",35.5653,0.0000,75.65,183.30,2.4231,0.4127,0.3539,4.7459
+"put","demo5","Demo 5 (DeepSeek V4 Flash Max / Kilo Code)",46.4233,0.0000,52.06,162.03,3.1123,0.3213,0.0943,5.3863
+"put","demo6","Demo 6 (Claude Opus 5 Ultra / Claude)",45.3946,0.0000,53.35,149.14,2.7953,0.3577,0.2152,5.7137
+"put","demo7","Demo 7 (Qwen 3.8 max XHigh / Kilo Code)",56.2835,0.0000,44.94,140.50,3.1264,0.3199,0.1191,4.6521
+"put","demo8","Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)",44.3842,0.0000,54.91,159.15,2.8984,0.3450,0.2098,6.1054
+"put","demo9","Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)",32.6769,0.0000,56.02,161.75,2.8871,0.3464,0.1819,5.4510

@@ -343,16 +343,17 @@ public class GlobalJmhBenchmark {
         String filter = null;
 
         for (int i = 0; i < args.length; i++) {
-            if ("--quick".equals(args[i])) {
+            String arg = args[i];
+            if ("--quick".equalsIgnoreCase(arg)) {
                 quick = true;
-            } else if ("--perf".equals(args[i]) || "--perfnorm".equals(args[i])) {
+            } else if ("--perf".equalsIgnoreCase(arg) || "--perfnorm".equalsIgnoreCase(arg) || "-perf".equalsIgnoreCase(arg)) {
                 enablePerf = true;
-            } else if ("--gc".equals(args[i])) {
+            } else if ("--gc".equalsIgnoreCase(arg) || "-gc".equalsIgnoreCase(arg)) {
                 enableGc = true;
-            } else if ("--filter".equals(args[i]) && i + 1 < args.length) {
+            } else if ("--filter".equalsIgnoreCase(arg) && i + 1 < args.length) {
                 filter = args[++i];
-            } else if (args[i].startsWith("--filter=")) {
-                filter = args[i].substring("--filter=".length());
+            } else if (arg.startsWith("--filter=")) {
+                filter = arg.substring("--filter=".length());
             }
         }
 
@@ -366,7 +367,7 @@ public class GlobalJmhBenchmark {
             builder.parent(new CommandLineOptions(args));
         } catch (CommandLineOptionException ignored) {}
 
-        String targetPattern = (filter != null) ? filter : GlobalJmhBenchmark.class.getSimpleName();
+        String targetPattern = (filter != null && !filter.isBlank()) ? filter : GlobalJmhBenchmark.class.getSimpleName();
         builder.include(targetPattern);
         builder.resultFormat(ResultFormatType.JSON);
         builder.result(jsonResult.getAbsolutePath());
@@ -382,18 +383,30 @@ public class GlobalJmhBenchmark {
         if (enablePerf) {
             if (isPerfAvailable()) {
                 System.out.println("Enabling LinuxPerfNormProfiler for hardware performance counter statistics...");
-                builder.addProfiler("perfnorm");
+                builder.addProfiler(org.openjdk.jmh.profile.LinuxPerfNormProfiler.class);
             } else {
                 System.err.println("WARNING: --perf requested, but Linux perf is not available. Continuing without perf profiler.");
             }
         }
         if (enableGc) {
-            builder.addProfiler("gc");
+            System.out.println("Enabling GCProfiler for memory allocation statistics...");
+            builder.addProfiler(org.openjdk.jmh.profile.GCProfiler.class);
         }
 
         Options opt = builder.build();
         new Runner(opt).run();
 
+        // 1. Generate JMH reports (HTML, Markdown, CSV)
         GlobalJmhReportGenerator.generateReports(jsonResult, reportsDir);
+
+        // 2. Automatically regenerate consolidated dashboards
+        try {
+            GlobalDashboardGenerator.generateDashboard(reportsDir, rootDir);
+            System.out.println("Consolidated master dashboard regenerated successfully.");
+        } catch (Exception e) {
+            System.err.println("Warning: could not regenerate consolidated dashboard: " + e.getMessage());
+        }
+
+        System.out.println("JMH benchmark and hardware counter evaluation completed in: " + reportsDir.getAbsolutePath());
     }
 }

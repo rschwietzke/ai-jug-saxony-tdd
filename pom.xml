@@ -171,6 +171,9 @@
                         <targetTests>
                             <param>org.jugsaxony.tdd.*</param>
                         </targetTests>
+                        <mutators>
+                            <mutator>STRONGER</mutator>
+                        </mutators>
                         <outputFormats>
                             <outputFormat>HTML</outputFormat>
                             <outputFormat>XML</outputFormat>

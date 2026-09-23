@@ -46,10 +46,10 @@ mvn test-compile pitest:mutationCoverage
 ```
 - **Module Output**: `<module>/target/pit-reports/` (automatically copied to `reports/pit-reports/<module>/` upon dashboard generation)
 
-### Step 4: Run JMH Cross-Project Microbenchmarks
-Executes microbenchmarks comparing read-hit, read-miss, and put throughput across all implementations.
+### Step 4: Run JMH Cross-Project Microbenchmarks with Hardware Counters
+Executes microbenchmarks comparing read-hit, read-miss, and put throughput across all implementations (`demo1`–`demo9`). On Linux systems with `perf` available, hardware performance counters can be captured automatically using JMH's `LinuxPerfNormProfiler`.
 
-- **Quick Run (~30s)**:
+- **Quick Sanity Run (~30s)**:
   ```bash
   mvn test-compile exec:java \
     -Dexec.mainClass="org.jugsaxony.tdd.report.GlobalJmhBenchmark" \
@@ -82,7 +82,7 @@ Executes microbenchmarks comparing read-hit, read-miss, and put throughput acros
     -Dexec.mainClass="org.jugsaxony.tdd.report.GlobalJmhBenchmark" \
     -Dexec.classpathScope="test" \
     -pl coverage-report \
-    -Dexec.args="--quick --filter getHit_demo[12]"
+    -Dexec.args="--quick --perf --filter getHit_demo[12]"
   ```
 
 - **Running an Individual Submodule Benchmark Directly**:
@@ -91,8 +91,20 @@ Executes microbenchmarks comparing read-hit, read-miss, and put throughput acros
     -pl demo1 \
     -Dexec.mainClass="org.jugsaxony.tdd.demo1.TDDHashMapBenchmark" \
     -Dexec.classpathScope="test" \
-    -Dexec.args="-f 1 -wi 2 -i 3"
+    -Dexec.args="-prof perfnorm -f 1 -wi 2 -i 3 -p size=128"
   ```
+
+#### Captured Micro-Architectural Metrics
+When `--perf` is specified, the benchmark collects and analyzes low-level CPU performance counters:
+- **Cycles / op**: Raw CPU cycles spent per hash map operation.
+- **Instructions / op**: Total x86/ARM instructions executed per operation.
+- **IPC (Instructions Per Cycle)**: Pipeline execution efficiency; higher is better (typically 2.0–4.0 on modern out-of-order cores).
+- **CPI (Cycles Per Instruction)**: Reciprocal of IPC ($1 / \text{IPC}$).
+- **Branch Miss %**: Rate of branch predictor misses; low misprediction avoids expensive pipeline flushes (~15-20 cycles).
+- **L1 D-Cache Miss %**: Rate of L1 data cache misses; highlights cache locality benefits of linear probing and flat parallel arrays over pointer-chasing node graphs.
+
+Generates `reports/jmh-results.json`, `reports/jmh-report.html`, `reports/jmh-report.md`, and `reports/jmh-report.csv`.
+
 
 ### Step 5: Generate JOL Memory Footprint Analysis & Master Dashboard
 Runs Java Object Layout (JOL) memory footprint analysis across all implementations, gathers Surefire test results, JaCoCo coverage, PIT mutation scores, and JMH microbenchmark results, then generates all HTML dashboards into `reports/`:

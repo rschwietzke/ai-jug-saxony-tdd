@@ -13,14 +13,20 @@
         .nav-link:hover { text-decoration: underline; }
         .card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         h1 { margin: 0 0 0.5rem 0; font-size: 2rem; color: #1e293b; }
-        h2 { font-size: 1.3rem; margin-top: 0; margin-bottom: 1rem; color: #1e293b; }
+        h2 { font-size: 1.3rem; margin-top: 0; margin-bottom: 1rem; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
         th { background: #f8fafc; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
         tr:hover { background: #f8fafc; }
         .badge { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
         .badge-model { background: #e0f2fe; color: #0369a1; }
+        .badge-tool { background: #f3e8ff; color: #7e22ce; }
         .badge-success { background: #dcfce7; color: #15803d; }
+        .badge-perf { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-weight: 700; }
+        .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }
+        .numeric { text-align: right; font-variant-numeric: tabular-nums; }
+        .btn { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.825rem; font-weight: 600; text-decoration: none; background: #f1f5f9; color: #334155; border: 1px solid var(--border); transition: all 0.15s; }
+        .btn:hover { background: #e2e8f0; color: #0f172a; }
     </style>
 </head>
 <body>
@@ -28,7 +34,7 @@
     <a href="index.html" class="nav-link">&larr; Back to Master Dashboard</a>
     <div class="header">
         <h1>TDDHashMap Cross-Model Quality & Performance Matrix</h1>
-        <p>Comprehensive breakdown of open hashing map quality, coverage, memory footprint, and mutation survival rates.</p>
+        <p>Comprehensive breakdown of open hashing map quality, coverage, memory footprint, and micro-architectural CPU performance.</p>
     </div>
     <div class="card">
         <h2>Quality & Mutation Matrix</h2>
@@ -52,109 +58,357 @@
                     <td><strong>demo1</strong></td>
                     <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
                     <td>21</td>
-                    <td>1.627s</td>
+                    <td>1.560s</td>
                     <td>99.2%</td>
                     <td>100.0%</td>
                     <td>93.2%</td>
-                    <td>53</td>
-                    <td>73</td>
-                    <td><strong>72.6%</strong></td>
+                    <td>70</td>
+                    <td>94</td>
+                    <td><strong>74.5%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo2</strong></td>
                     <td><span class="badge badge-model">Kimi K3 Max</span></td>
-                    <td>74</td>
-                    <td>1.630s</td>
+                    <td>37</td>
+                    <td>0.668s</td>
                     <td>97.7%</td>
                     <td>98.9%</td>
                     <td>85.7%</td>
-                    <td>47</td>
-                    <td>63</td>
-                    <td><strong>74.6%</strong></td>
+                    <td>62</td>
+                    <td>83</td>
+                    <td><strong>74.7%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo3</strong></td>
                     <td><span class="badge badge-model">OpenAI 5.6 Sol Max</span></td>
-                    <td>44</td>
-                    <td>1.291s</td>
+                    <td>22</td>
+                    <td>0.713s</td>
                     <td>96.1%</td>
                     <td>96.1%</td>
                     <td>93.8%</td>
-                    <td>38</td>
-                    <td>76</td>
+                    <td>50</td>
+                    <td>100</td>
                     <td><strong>50.0%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo4</strong></td>
                     <td><span class="badge badge-model">Gemma 4 31B Thinking</span></td>
                     <td>13</td>
-                    <td>0.245s</td>
+                    <td>0.176s</td>
                     <td>95.0%</td>
                     <td>96.3%</td>
                     <td>89.5%</td>
-                    <td>39</td>
-                    <td>50</td>
-                    <td><strong>78.0%</strong></td>
+                    <td>52</td>
+                    <td>69</td>
+                    <td><strong>75.4%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo5</strong></td>
                     <td><span class="badge badge-model">DeepSeek V4 Flash Max</span></td>
-                    <td>80</td>
-                    <td>1.697s</td>
+                    <td>40</td>
+                    <td>0.792s</td>
                     <td>100.0%</td>
                     <td>100.0%</td>
                     <td>97.8%</td>
-                    <td>42</td>
-                    <td>65</td>
-                    <td><strong>64.6%</strong></td>
+                    <td>56</td>
+                    <td>87</td>
+                    <td><strong>64.4%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo6</strong></td>
                     <td><span class="badge badge-model">Claude Opus 5 Ultra</span></td>
-                    <td>202</td>
-                    <td>8.239s</td>
+                    <td>101</td>
+                    <td>6.018s</td>
                     <td>98.9%</td>
                     <td>99.1%</td>
                     <td>94.0%</td>
-                    <td>65</td>
-                    <td>88</td>
-                    <td><strong>73.9%</strong></td>
+                    <td>84</td>
+                    <td>113</td>
+                    <td><strong>74.3%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo7</strong></td>
                     <td><span class="badge badge-model">Qwen 3.8 max XHigh</span></td>
-                    <td>90</td>
-                    <td>2.502s</td>
+                    <td>45</td>
+                    <td>0.914s</td>
                     <td>100.0%</td>
                     <td>100.0%</td>
                     <td>100.0%</td>
-                    <td>51</td>
-                    <td>64</td>
-                    <td><strong>79.7%</strong></td>
+                    <td>66</td>
+                    <td>83</td>
+                    <td><strong>79.5%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo8</strong></td>
                     <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
-                    <td>66</td>
-                    <td>2.142s</td>
+                    <td>33</td>
+                    <td>1.706s</td>
                     <td>97.9%</td>
                     <td>99.1%</td>
                     <td>87.5%</td>
-                    <td>50</td>
-                    <td>71</td>
-                    <td><strong>70.4%</strong></td>
+                    <td>65</td>
+                    <td>94</td>
+                    <td><strong>69.1%</strong></td>
                 </tr>
                 <tr>
                     <td><strong>demo9</strong></td>
                     <td><span class="badge badge-model">Gemini 3.8 Flash High</span></td>
                     <td>39</td>
-                    <td>1.946s</td>
+                    <td>2.292s</td>
                     <td>99.1%</td>
                     <td>97.9%</td>
                     <td>97.5%</td>
-                    <td>53</td>
-                    <td>68</td>
-                    <td><strong>77.9%</strong></td>
+                    <td>70</td>
+                    <td>87</td>
+                    <td><strong>80.5%</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h2><span>Memory Footprint Matrix (JOL)</span> <a href="jol-report.html" class="btn">View JOL Report &rarr;</a></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Implementation</th>
+                    <th>Model</th>
+                    <th>Toolchain</th>
+                    <th class="numeric">Shallow (B)</th>
+                    <th class="numeric">Empty (B)</th>
+                    <th class="numeric">N=1,000 (B)</th>
+                    <th class="numeric">Bytes/Entry</th>
+                    <th class="numeric">Objects @ 10k</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>demo1</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
+                    <td><span class="badge badge-tool">Antigravity Agent (VS Code)</span></td>
+                    <td class="numeric">40 B</td>
+                    <td class="numeric">200 B</td>
+                    <td class="numeric">80,456 B</td>
+                    <td class="numeric"><strong>80.5 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo2</strong></td>
+                    <td><span class="badge badge-model">Kimi K3 Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric">32 B</td>
+                    <td class="numeric">192 B</td>
+                    <td class="numeric">80,448 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo3</strong></td>
+                    <td><span class="badge badge-model">OpenAI 5.6 Sol Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric">40 B</td>
+                    <td class="numeric">232 B</td>
+                    <td class="numeric">82,520 B</td>
+                    <td class="numeric"><strong>82.5 B/e</strong></td>
+                    <td class="numeric">30,004</td>
+                </tr>
+                <tr>
+                    <td><strong>demo4</strong></td>
+                    <td><span class="badge badge-model">Gemma 4 31B Thinking</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric">32 B</td>
+                    <td class="numeric">192 B</td>
+                    <td class="numeric">80,448 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo5</strong></td>
+                    <td><span class="badge badge-model">DeepSeek V4 Flash Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric">32 B</td>
+                    <td class="numeric">192 B</td>
+                    <td class="numeric">80,448 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo6</strong></td>
+                    <td><span class="badge badge-model">Claude Opus 5 Ultra</span></td>
+                    <td><span class="badge badge-tool">Claude</span></td>
+                    <td class="numeric">24 B</td>
+                    <td class="numeric">184 B</td>
+                    <td class="numeric">80,440 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo7</strong></td>
+                    <td><span class="badge badge-model">Qwen 3.8 max XHigh</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric">32 B</td>
+                    <td class="numeric">192 B</td>
+                    <td class="numeric">80,448 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo8</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric">32 B</td>
+                    <td class="numeric">192 B</td>
+                    <td class="numeric">80,448 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+                <tr>
+                    <td><strong>demo9</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.8 Flash High</span></td>
+                    <td><span class="badge badge-tool">Antigravity Agent (native)</span></td>
+                    <td class="numeric">32 B</td>
+                    <td class="numeric">192 B</td>
+                    <td class="numeric">80,448 B</td>
+                    <td class="numeric"><strong>80.4 B/e</strong></td>
+                    <td class="numeric">30,003</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card">
+        <h2><span>Microbenchmark Throughput & Hardware Performance Counters (JMH) <span class="badge badge-perf">🔬 Hardware Counters Enabled</span></span> <a href="jmh-report.html" class="btn">View Full JMH Report &rarr;</a></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Implementation</th>
+                    <th>Model</th>
+                    <th>Toolchain</th>
+                    <th class="numeric">Put (ops/µs)</th>
+                    <th class="numeric">Get Hit (ops/µs)</th>
+                    <th class="numeric">Get Miss (ops/µs)</th>
+                    <th class="numeric">Cycles/op</th>
+                    <th class="numeric">Insns/op</th>
+                    <th class="numeric">IPC</th>
+                    <th class="numeric">Branch Miss %</th>
+                    <th class="numeric">L1 Miss %</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>demo1</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
+                    <td><span class="badge badge-tool">Antigravity Agent (VS Code)</span></td>
+                    <td class="numeric"><strong>57.09</strong></td>
+                    <td class="numeric"><strong>68.04</strong></td>
+                    <td class="numeric"><strong>43.38</strong></td>
+                    <td class="numeric"><span class="perf-tag">34.5</span></td>
+                    <td class="numeric"><span class="perf-tag">101.0</span></td>
+                    <td class="numeric"><strong>2.93</strong></td>
+                    <td class="numeric">0.08%</td>
+                    <td class="numeric">8.80%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo2</strong></td>
+                    <td><span class="badge badge-model">Kimi K3 Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>63.60</strong></td>
+                    <td class="numeric"><strong>78.27</strong></td>
+                    <td class="numeric"><strong>77.22</strong></td>
+                    <td class="numeric"><span class="perf-tag">34.6</span></td>
+                    <td class="numeric"><span class="perf-tag">102.3</span></td>
+                    <td class="numeric"><strong>2.95</strong></td>
+                    <td class="numeric">0.08%</td>
+                    <td class="numeric">8.38%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo3</strong></td>
+                    <td><span class="badge badge-model">OpenAI 5.6 Sol Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>35.81</strong></td>
+                    <td class="numeric"><strong>68.00</strong></td>
+                    <td class="numeric"><strong>55.54</strong></td>
+                    <td class="numeric"><span class="perf-tag">40.4</span></td>
+                    <td class="numeric"><span class="perf-tag">132.1</span></td>
+                    <td class="numeric"><strong>3.27</strong></td>
+                    <td class="numeric">0.12%</td>
+                    <td class="numeric">9.26%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo4</strong></td>
+                    <td><span class="badge badge-model">Gemma 4 31B Thinking</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>35.57</strong></td>
+                    <td class="numeric"><strong>35.95</strong></td>
+                    <td class="numeric"><strong>36.23</strong></td>
+                    <td class="numeric"><span class="perf-tag">60.7</span></td>
+                    <td class="numeric"><span class="perf-tag">102.6</span></td>
+                    <td class="numeric"><strong>1.69</strong></td>
+                    <td class="numeric">0.14%</td>
+                    <td class="numeric">10.18%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo5</strong></td>
+                    <td><span class="badge badge-model">DeepSeek V4 Flash Max</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>46.42</strong></td>
+                    <td class="numeric"><strong>67.91</strong></td>
+                    <td class="numeric"><strong>54.31</strong></td>
+                    <td class="numeric"><span class="perf-tag">35.6</span></td>
+                    <td class="numeric"><span class="perf-tag">110.2</span></td>
+                    <td class="numeric"><strong>3.10</strong></td>
+                    <td class="numeric">0.12%</td>
+                    <td class="numeric">6.32%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo6</strong></td>
+                    <td><span class="badge badge-model">Claude Opus 5 Ultra</span></td>
+                    <td><span class="badge badge-tool">Claude</span></td>
+                    <td class="numeric"><strong>45.39</strong></td>
+                    <td class="numeric"><strong>53.42</strong></td>
+                    <td class="numeric"><strong>72.38</strong></td>
+                    <td class="numeric"><span class="perf-tag">38.4</span></td>
+                    <td class="numeric"><span class="perf-tag">100.8</span></td>
+                    <td class="numeric"><strong>2.62</strong></td>
+                    <td class="numeric">0.13%</td>
+                    <td class="numeric">10.99%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo7</strong></td>
+                    <td><span class="badge badge-model">Qwen 3.8 max XHigh</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>56.28</strong></td>
+                    <td class="numeric"><strong>65.24</strong></td>
+                    <td class="numeric"><strong>63.47</strong></td>
+                    <td class="numeric"><span class="perf-tag">37.7</span></td>
+                    <td class="numeric"><span class="perf-tag">106.7</span></td>
+                    <td class="numeric"><strong>2.83</strong></td>
+                    <td class="numeric">0.09%</td>
+                    <td class="numeric">7.11%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo8</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.7 Flash High</span></td>
+                    <td><span class="badge badge-tool">Kilo Code (VS Code)</span></td>
+                    <td class="numeric"><strong>44.38</strong></td>
+                    <td class="numeric"><strong>62.74</strong></td>
+                    <td class="numeric"><strong>71.23</strong></td>
+                    <td class="numeric"><span class="perf-tag">38.6</span></td>
+                    <td class="numeric"><span class="perf-tag">105.3</span></td>
+                    <td class="numeric"><strong>2.73</strong></td>
+                    <td class="numeric">0.09%</td>
+                    <td class="numeric">6.02%</td>
+                </tr>
+                <tr>
+                    <td><strong>demo9</strong></td>
+                    <td><span class="badge badge-model">Gemini 3.8 Flash High</span></td>
+                    <td><span class="badge badge-tool">Antigravity Agent (native)</span></td>
+                    <td class="numeric"><strong>32.68</strong></td>
+                    <td class="numeric"><strong>66.82</strong></td>
+                    <td class="numeric"><strong>60.37</strong></td>
+                    <td class="numeric"><span class="perf-tag">35.7</span></td>
+                    <td class="numeric"><span class="perf-tag">101.7</span></td>
+                    <td class="numeric"><strong>2.85</strong></td>
+                    <td class="numeric">0.09%</td>
+                    <td class="numeric">7.73%</td>
                 </tr>
             </tbody>
         </table>

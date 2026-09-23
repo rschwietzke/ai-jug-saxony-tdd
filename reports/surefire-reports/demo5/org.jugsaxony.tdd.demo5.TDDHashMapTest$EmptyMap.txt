@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jugsaxony.tdd.demo5.TDDHashMapTest$EmptyMap
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 s -- in org.jugsaxony.tdd.demo5.TDDHashMapTest$EmptyMap
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in org.jugsaxony.tdd.demo5.TDDHashMapTest$EmptyMap
