@@ -143,6 +143,7 @@ All consolidated and per-module reports are located in `reports/` (preserved acr
 | :--- | :--- | :--- |
 | **Master Executive Dashboard** | `reports/index.html` | Interactive dashboard with high-level KPI cards, test counts, coverage, mutation scores, memory, and benchmark throughput |
 | **TDDHashMap Detailed Matrix** | `reports/tddhashmap.html` | In-depth breakdown of open hashing map implementation metrics, test counts, and mutation survival rates |
+| **Surefire Test Execution Report** | `reports/surefire.html` | Aggregated unit test execution records, timings, and failure diagnostics across submodules |
 | **JOL Memory Footprint Report** | `reports/jol-report.html` | Detailed object layout, shallow size, empty table size, deep retained size @ 1,000 entries, and bytes/entry |
 | **JMH Microbenchmark Report** | `reports/jmh-report.html` | Comparative read-hit, read-miss, and put throughput tables and bar charts |
 | **Aggregated JaCoCo Report** | `reports/coverage-aggregate/index.html` | Drill-down multi-module code coverage across all demo packages |

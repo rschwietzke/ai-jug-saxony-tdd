@@ -158,6 +158,21 @@ public class GlobalJmhReportGenerator {
         }
     }
 
+    private static String renderModuleLink(String modId, String label) {
+        if (modId != null && !modId.isBlank()) {
+            return String.format("<a href=\"sources/%s/TDDHashMap.html\" class=\"module-source-link\" title=\"View Source: %s/TDDHashMap.java\"><strong>%s</strong> <span class=\"code-icon\">📄</span></a>",
+                    modId, modId, label);
+        }
+        return String.format("<strong>%s</strong>", label);
+    }
+
+    private static String renderMarkdownModuleLink(String modId, String label) {
+        if (modId != null && !modId.isBlank()) {
+            return String.format("[**%s**](sources/%s/TDDHashMap.html)", label, modId);
+        }
+        return String.format("**%s**", label);
+    }
+
     public static void generateMarkdownReport(File targetFile, List<BenchmarkEntry> entries) throws IOException {
         Map<String, List<BenchmarkEntry>> byOp = new LinkedHashMap<>();
         for (BenchmarkEntry e : entries) {
@@ -198,9 +213,9 @@ public class GlobalJmhReportGenerator {
                         String branchMissStr = e.branches() > 0 ? String.format("%.2f%%", e.branchMissRate()) : "-";
                         String l1MissStr = e.l1DcacheLoads() > 0 ? String.format("%.2f%%", e.l1DcacheMissRate()) : "-";
 
-                        out.printf("| %d | **%s** | %s | %,.2f | ± %,.2f | %s | %s | %s | %s | %s |%n",
+                        out.printf("| %d | %s | %s | %,.2f | ± %,.2f | %s | %s | %s | %s | %s |%n",
                                 rank++,
-                                e.targetId(),
+                                renderMarkdownModuleLink(e.targetId(), e.targetId()),
                                 e.modelName(),
                                 e.score(),
                                 e.scoreError(),
@@ -217,9 +232,9 @@ public class GlobalJmhReportGenerator {
 
                     int rank = 1;
                     for (BenchmarkEntry e : list) {
-                        out.printf("| %d | **%s** | %s | %,.2f | ± %,.2f |%n",
+                        out.printf("| %d | %s | %s | %,.2f | ± %,.2f |%n",
                                 rank++,
-                                e.targetId(),
+                                renderMarkdownModuleLink(e.targetId(), e.targetId()),
                                 e.modelName(),
                                 e.score(),
                                 e.scoreError()
@@ -301,6 +316,9 @@ public class GlobalJmhReportGenerator {
             out.println("        .kpi-val { font-size: 1.4rem; font-weight: 700; color: #0f172a; }");
             out.println("        .kpi-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }");
             out.println("        .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }");
+            out.println("        .module-source-link { color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.45rem; border-radius: 6px; background: rgba(37, 99, 235, 0.06); border: 1px solid rgba(37, 99, 235, 0.15); transition: all 0.2s ease; font-weight: 700; }");
+            out.println("        .module-source-link:hover { background: rgba(37, 99, 235, 0.14); border-color: var(--primary); text-decoration: none; transform: translateY(-1px); }");
+            out.println("        .module-source-link .code-icon { font-size: 0.75rem; opacity: 0.75; }");
             out.println("    </style>");
             out.println("</head>");
             out.println("<body>");
@@ -389,7 +407,7 @@ public class GlobalJmhReportGenerator {
 
                         out.println("                <tr>");
                         out.printf("                    <td>%s</td>%n", rankBadge);
-                        out.printf("                    <td><strong>%s</strong></td>%n", e.targetId());
+                        out.printf("                    <td>%s</td>%n", renderModuleLink(e.targetId(), e.targetId()));
                         out.printf("                    <td><span class=\"badge badge-primary\">%s</span></td>%n", e.modelName());
                         out.printf("                    <td class=\"numeric\"><div class=\"bar-container\"><div class=\"bar-fill\" style=\"width: %.1f%%;\"></div></div> <strong>%,.2f</strong></td>%n", pct, e.score());
                         out.printf("                    <td class=\"numeric\" style=\"color:var(--text-muted);\">± %,.2f</td>%n", e.scoreError());
@@ -423,7 +441,7 @@ public class GlobalJmhReportGenerator {
 
                         out.println("                <tr>");
                         out.printf("                    <td>%s</td>%n", rankBadge);
-                        out.printf("                    <td><strong>%s</strong></td>%n", e.targetId());
+                        out.printf("                    <td>%s</td>%n", renderModuleLink(e.targetId(), e.targetId()));
                         out.printf("                    <td><span class=\"badge badge-primary\">%s</span></td>%n", e.modelName());
                         out.printf("                    <td class=\"numeric\"><div class=\"bar-container\"><div class=\"bar-fill\" style=\"width: %.1f%%;\"></div></div> <strong>%,.2f</strong></td>%n", pct, e.score());
                         out.printf("                    <td class=\"numeric\" style=\"color:var(--text-muted);\">± %,.2f</td>%n", e.scoreError());

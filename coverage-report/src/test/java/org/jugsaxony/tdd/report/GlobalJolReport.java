@@ -151,6 +151,21 @@ public class GlobalJolReport {
         generateHtmlReport(new File(outputDir, "jol-report.html"), metrics);
     }
 
+    private static String renderModuleLink(String modId, String label) {
+        if (modId != null && !modId.isBlank()) {
+            return String.format("<a href=\"sources/%s/TDDHashMap.html\" class=\"module-source-link\" title=\"View Source: %s/TDDHashMap.java\"><strong>%s</strong> <span class=\"code-icon\">📄</span></a>",
+                    modId, modId, label);
+        }
+        return String.format("<strong>%s</strong>", label);
+    }
+
+    private static String renderMarkdownModuleLink(String modId, String label) {
+        if (modId != null && !modId.isBlank()) {
+            return String.format("[**%s**](sources/%s/TDDHashMap.html)", label, modId);
+        }
+        return String.format("**%s**", label);
+    }
+
     public static void generateMarkdownReport(File targetFile, List<MemoryMetrics> metrics) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(targetFile))) {
             out.println("# Java Object Layout (JOL) Cross-Project Memory Footprint Report");
@@ -163,8 +178,8 @@ public class GlobalJolReport {
             out.println("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |");
 
             for (MemoryMetrics m : metrics) {
-                out.printf("| **%s** | %s | %d B | %,d B | %,d B | %.1f | %,d B | %.1f | %,d B | %.1f |%n",
-                        m.name(),
+                out.printf("| %s | %s | %d B | %,d B | %,d B | %.1f | %,d B | %.1f | %,d B | %.1f |%n",
+                        renderMarkdownModuleLink(m.id(), m.name()),
                         m.model(),
                         m.shallowSize(),
                         m.emptyFootprint(),
@@ -185,8 +200,8 @@ public class GlobalJolReport {
             for (MemoryMetrics m : metrics) {
                 long n10000Objs = m.objectCountBySize().get(10000);
                 String strategy = (n10000Objs > 15000) ? "Node/Entry Objects" : "Flat Arrays (Cache-friendly)";
-                out.printf("| **%s** | %s | %,d | %,d | %,d | %,d | %s |%n",
-                        m.name(),
+                out.printf("| %s | %s | %,d | %,d | %,d | %,d | %s |%n",
+                        renderMarkdownModuleLink(m.id(), m.name()),
                         m.model(),
                         m.emptyObjectCount(),
                         m.objectCountBySize().get(100),
@@ -237,6 +252,9 @@ public class GlobalJolReport {
             out.println("        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }");
             out.println("        .nav-link { color: var(--primary); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; margin-bottom: 1rem; }");
             out.println("        .nav-link:hover { text-decoration: underline; }");
+            out.println("        .module-source-link { color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.45rem; border-radius: 6px; background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.15); transition: all 0.2s ease; font-weight: 700; }");
+            out.println("        .module-source-link:hover { background: rgba(59, 130, 246, 0.14); border-color: var(--primary); text-decoration: none; transform: translateY(-1px); }");
+            out.println("        .module-source-link .code-icon { font-size: 0.75rem; opacity: 0.75; }");
             out.println("    </style>");
             out.println("</head>");
             out.println("<body>");
@@ -266,7 +284,7 @@ public class GlobalJolReport {
 
             for (MemoryMetrics m : metrics) {
                 out.println("                <tr>");
-                out.printf("                    <td><strong>%s</strong></td>%n", m.name());
+                out.printf("                    <td>%s</td>%n", renderModuleLink(m.id(), m.name()));
                 out.printf("                    <td><span class=\"badge badge-primary\">%s</span></td>%n", m.model());
                 out.printf("                    <td>%d B</td>%n", m.shallowSize());
                 out.printf("                    <td>%,d B</td>%n", m.emptyFootprint());
@@ -302,7 +320,7 @@ public class GlobalJolReport {
                 String badgeClass = (n10000Objs > 15000) ? "badge-primary" : "badge-flat";
                 String strategy = (n10000Objs > 15000) ? "Node/Entry Objects" : "Flat Arrays (Cache-friendly)";
                 out.println("                <tr>");
-                out.printf("                    <td><strong>%s</strong></td>%n", m.name());
+                out.printf("                    <td>%s</td>%n", renderModuleLink(m.id(), m.name()));
                 out.printf("                    <td>%s</td>%n", m.model());
                 out.printf("                    <td>%,d</td>%n", m.emptyObjectCount());
                 out.printf("                    <td>%,d</td>%n", m.objectCountBySize().get(100));

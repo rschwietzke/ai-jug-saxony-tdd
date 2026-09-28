@@ -6,29 +6,29 @@ Comprehensive memory layout and footprint analysis comparing all TDDHashMap impl
 
 | Implementation | Model | Shallow Size | Empty (B) | N=100 (B) | N=100 (B/entry) | N=1,000 (B) | N=1,000 (B/entry) | N=10,000 (B) | N=10,000 (B/entry) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Demo 1** | Gemini 3.7 Flash High (Antigravity Agent in VSCode) | 40 B | 200 B | 8,520 B | 85.2 | 80,456 B | 80.5 | 771,144 B | 77.1 |
-| **Demo 2** | Kimi K3 Max (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
-| **Demo 3** | OpenAI 5.6 Sol Max (Kilo Code) | 40 B | 232 B | 8,792 B | 87.9 | 82,520 B | 82.5 | 787,544 B | 78.8 |
-| **Demo 4** | Gemma 4 31B Thinking (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
-| **Demo 5** | DeepSeek V4 Flash Max (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 902,208 B | 90.2 |
-| **Demo 6** | Claude Opus 5 Ultra (Claude) | 24 B | 184 B | 8,504 B | 85.0 | 80,440 B | 80.4 | 902,200 B | 90.2 |
-| **Demo 7** | Qwen 3.8 max XHigh (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
-| **Demo 8** | Gemini 3.7 Flash High (Kilo Code in VSCode) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
-| **Demo 9** | Gemini 3.8 Flash High (Antigravity Agent natively) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
+| [**Demo 1**](sources/demo1/TDDHashMap.html) | Gemini 3.7 Flash High (Antigravity Agent in VSCode) | 40 B | 200 B | 8,520 B | 85.2 | 80,456 B | 80.5 | 771,144 B | 77.1 |
+| [**Demo 2**](sources/demo2/TDDHashMap.html) | Kimi K3 Max (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
+| [**Demo 3**](sources/demo3/TDDHashMap.html) | OpenAI 5.6 Sol Max (Kilo Code) | 40 B | 232 B | 8,792 B | 87.9 | 82,520 B | 82.5 | 787,544 B | 78.8 |
+| [**Demo 4**](sources/demo4/TDDHashMap.html) | Gemma 4 31B Thinking (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
+| [**Demo 5**](sources/demo5/TDDHashMap.html) | DeepSeek V4 Flash Max (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 902,208 B | 90.2 |
+| [**Demo 6**](sources/demo6/TDDHashMap.html) | Claude Opus 5 Ultra (Claude) | 24 B | 184 B | 8,504 B | 85.0 | 80,440 B | 80.4 | 902,200 B | 90.2 |
+| [**Demo 7**](sources/demo7/TDDHashMap.html) | Qwen 3.8 max XHigh (Kilo Code) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
+| [**Demo 8**](sources/demo8/TDDHashMap.html) | Gemini 3.7 Flash High (Kilo Code in VSCode) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
+| [**Demo 9**](sources/demo9/TDDHashMap.html) | Gemini 3.8 Flash High (Antigravity Agent natively) | 32 B | 192 B | 8,512 B | 85.1 | 80,448 B | 80.4 | 771,136 B | 77.1 |
 
 ## 2. Total Internal Object Count (GC Pressure)
 
 | Implementation | Model | Empty Objects | Objects @ N=100 | Objects @ N=1,000 | Objects @ N=10,000 | Memory Strategy |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Demo 1** | Gemini 3.7 Flash High (Antigravity Agent in VSCode) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 2** | Kimi K3 Max (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 3** | OpenAI 5.6 Sol Max (Kilo Code) | 4 | 304 | 3,004 | 30,004 | Node/Entry Objects |
-| **Demo 4** | Gemma 4 31B Thinking (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 5** | DeepSeek V4 Flash Max (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 6** | Claude Opus 5 Ultra (Claude) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 7** | Qwen 3.8 max XHigh (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 8** | Gemini 3.7 Flash High (Kilo Code in VSCode) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
-| **Demo 9** | Gemini 3.8 Flash High (Antigravity Agent natively) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 1**](sources/demo1/TDDHashMap.html) | Gemini 3.7 Flash High (Antigravity Agent in VSCode) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 2**](sources/demo2/TDDHashMap.html) | Kimi K3 Max (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 3**](sources/demo3/TDDHashMap.html) | OpenAI 5.6 Sol Max (Kilo Code) | 4 | 304 | 3,004 | 30,004 | Node/Entry Objects |
+| [**Demo 4**](sources/demo4/TDDHashMap.html) | Gemma 4 31B Thinking (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 5**](sources/demo5/TDDHashMap.html) | DeepSeek V4 Flash Max (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 6**](sources/demo6/TDDHashMap.html) | Claude Opus 5 Ultra (Claude) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 7**](sources/demo7/TDDHashMap.html) | Qwen 3.8 max XHigh (Kilo Code) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 8**](sources/demo8/TDDHashMap.html) | Gemini 3.7 Flash High (Kilo Code in VSCode) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
+| [**Demo 9**](sources/demo9/TDDHashMap.html) | Gemini 3.8 Flash High (Antigravity Agent natively) | 3 | 303 | 3,003 | 30,003 | Node/Entry Objects |
 
 ## 3. Class Layout Details
 

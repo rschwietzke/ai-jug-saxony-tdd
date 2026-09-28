@@ -38,6 +38,9 @@
         .kpi-val { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
         .kpi-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
         .perf-tag { font-size: 0.75rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-family: monospace; }
+        .module-source-link { color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.2rem 0.45rem; border-radius: 6px; background: rgba(37, 99, 235, 0.06); border: 1px solid rgba(37, 99, 235, 0.15); transition: all 0.2s ease; font-weight: 700; }
+        .module-source-link:hover { background: rgba(37, 99, 235, 0.14); border-color: var(--primary); text-decoration: none; transform: translateY(-1px); }
+        .module-source-link .code-icon { font-size: 0.75rem; opacity: 0.75; }
     </style>
 </head>
 <body>
@@ -77,7 +80,7 @@
             <tbody>
                 <tr>
                     <td><span class="badge badge-winner">🥇 #1</span></td>
-                    <td><strong>demo2</strong></td>
+                    <td><a href="sources/demo2/TDDHashMap.html" class="module-source-link" title="View Source: demo2/TDDHashMap.java"><strong>demo2</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 2 (Kimi K3 Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 100.0%;"></div></div> <strong>78.27</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -89,7 +92,7 @@
                 </tr>
                 <tr>
                     <td>#2</td>
-                    <td><strong>demo1</strong></td>
+                    <td><a href="sources/demo1/TDDHashMap.html" class="module-source-link" title="View Source: demo1/TDDHashMap.java"><strong>demo1</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 86.9%;"></div></div> <strong>68.04</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -101,7 +104,7 @@
                 </tr>
                 <tr>
                     <td>#3</td>
-                    <td><strong>demo3</strong></td>
+                    <td><a href="sources/demo3/TDDHashMap.html" class="module-source-link" title="View Source: demo3/TDDHashMap.java"><strong>demo3</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 86.9%;"></div></div> <strong>68.00</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -113,7 +116,7 @@
                 </tr>
                 <tr>
                     <td>#4</td>
-                    <td><strong>demo5</strong></td>
+                    <td><a href="sources/demo5/TDDHashMap.html" class="module-source-link" title="View Source: demo5/TDDHashMap.java"><strong>demo5</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 5 (DeepSeek V4 Flash Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 86.8%;"></div></div> <strong>67.91</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -125,7 +128,7 @@
                 </tr>
                 <tr>
                     <td>#5</td>
-                    <td><strong>demo9</strong></td>
+                    <td><a href="sources/demo9/TDDHashMap.html" class="module-source-link" title="View Source: demo9/TDDHashMap.java"><strong>demo9</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 85.4%;"></div></div> <strong>66.82</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -137,7 +140,7 @@
                 </tr>
                 <tr>
                     <td>#6</td>
-                    <td><strong>demo7</strong></td>
+                    <td><a href="sources/demo7/TDDHashMap.html" class="module-source-link" title="View Source: demo7/TDDHashMap.java"><strong>demo7</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 7 (Qwen 3.8 max XHigh / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 83.3%;"></div></div> <strong>65.24</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -149,7 +152,7 @@
                 </tr>
                 <tr>
                     <td>#7</td>
-                    <td><strong>demo8</strong></td>
+                    <td><a href="sources/demo8/TDDHashMap.html" class="module-source-link" title="View Source: demo8/TDDHashMap.java"><strong>demo8</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 80.2%;"></div></div> <strong>62.74</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -161,7 +164,7 @@
                 </tr>
                 <tr>
                     <td>#8</td>
-                    <td><strong>demo6</strong></td>
+                    <td><a href="sources/demo6/TDDHashMap.html" class="module-source-link" title="View Source: demo6/TDDHashMap.java"><strong>demo6</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 6 (Claude Opus 5 Ultra / Claude)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 68.2%;"></div></div> <strong>53.42</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -173,7 +176,7 @@
                 </tr>
                 <tr>
                     <td>#9</td>
-                    <td><strong>demo4</strong></td>
+                    <td><a href="sources/demo4/TDDHashMap.html" class="module-source-link" title="View Source: demo4/TDDHashMap.java"><strong>demo4</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 4 (Gemma 4 31B Thinking / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 45.9%;"></div></div> <strong>35.95</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -213,7 +216,7 @@
             <tbody>
                 <tr>
                     <td><span class="badge badge-winner">🥇 #1</span></td>
-                    <td><strong>demo2</strong></td>
+                    <td><a href="sources/demo2/TDDHashMap.html" class="module-source-link" title="View Source: demo2/TDDHashMap.java"><strong>demo2</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 2 (Kimi K3 Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 100.0%;"></div></div> <strong>77.22</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -225,7 +228,7 @@
                 </tr>
                 <tr>
                     <td>#2</td>
-                    <td><strong>demo6</strong></td>
+                    <td><a href="sources/demo6/TDDHashMap.html" class="module-source-link" title="View Source: demo6/TDDHashMap.java"><strong>demo6</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 6 (Claude Opus 5 Ultra / Claude)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 93.7%;"></div></div> <strong>72.38</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -237,7 +240,7 @@
                 </tr>
                 <tr>
                     <td>#3</td>
-                    <td><strong>demo8</strong></td>
+                    <td><a href="sources/demo8/TDDHashMap.html" class="module-source-link" title="View Source: demo8/TDDHashMap.java"><strong>demo8</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 92.2%;"></div></div> <strong>71.23</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -249,7 +252,7 @@
                 </tr>
                 <tr>
                     <td>#4</td>
-                    <td><strong>demo7</strong></td>
+                    <td><a href="sources/demo7/TDDHashMap.html" class="module-source-link" title="View Source: demo7/TDDHashMap.java"><strong>demo7</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 7 (Qwen 3.8 max XHigh / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 82.2%;"></div></div> <strong>63.47</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -261,7 +264,7 @@
                 </tr>
                 <tr>
                     <td>#5</td>
-                    <td><strong>demo9</strong></td>
+                    <td><a href="sources/demo9/TDDHashMap.html" class="module-source-link" title="View Source: demo9/TDDHashMap.java"><strong>demo9</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 78.2%;"></div></div> <strong>60.37</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -273,7 +276,7 @@
                 </tr>
                 <tr>
                     <td>#6</td>
-                    <td><strong>demo3</strong></td>
+                    <td><a href="sources/demo3/TDDHashMap.html" class="module-source-link" title="View Source: demo3/TDDHashMap.java"><strong>demo3</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 71.9%;"></div></div> <strong>55.54</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -285,7 +288,7 @@
                 </tr>
                 <tr>
                     <td>#7</td>
-                    <td><strong>demo5</strong></td>
+                    <td><a href="sources/demo5/TDDHashMap.html" class="module-source-link" title="View Source: demo5/TDDHashMap.java"><strong>demo5</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 5 (DeepSeek V4 Flash Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 70.3%;"></div></div> <strong>54.31</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -297,7 +300,7 @@
                 </tr>
                 <tr>
                     <td>#8</td>
-                    <td><strong>demo1</strong></td>
+                    <td><a href="sources/demo1/TDDHashMap.html" class="module-source-link" title="View Source: demo1/TDDHashMap.java"><strong>demo1</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 56.2%;"></div></div> <strong>43.38</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -309,7 +312,7 @@
                 </tr>
                 <tr>
                     <td>#9</td>
-                    <td><strong>demo4</strong></td>
+                    <td><a href="sources/demo4/TDDHashMap.html" class="module-source-link" title="View Source: demo4/TDDHashMap.java"><strong>demo4</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 4 (Gemma 4 31B Thinking / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 46.9%;"></div></div> <strong>36.23</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -349,7 +352,7 @@
             <tbody>
                 <tr>
                     <td><span class="badge badge-winner">🥇 #1</span></td>
-                    <td><strong>demo2</strong></td>
+                    <td><a href="sources/demo2/TDDHashMap.html" class="module-source-link" title="View Source: demo2/TDDHashMap.java"><strong>demo2</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 2 (Kimi K3 Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 100.0%;"></div></div> <strong>63.60</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -361,7 +364,7 @@
                 </tr>
                 <tr>
                     <td>#2</td>
-                    <td><strong>demo1</strong></td>
+                    <td><a href="sources/demo1/TDDHashMap.html" class="module-source-link" title="View Source: demo1/TDDHashMap.java"><strong>demo1</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 1 (Gemini 3.7 Flash High / Antigravity Agent in VSCode)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 89.8%;"></div></div> <strong>57.09</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -373,7 +376,7 @@
                 </tr>
                 <tr>
                     <td>#3</td>
-                    <td><strong>demo7</strong></td>
+                    <td><a href="sources/demo7/TDDHashMap.html" class="module-source-link" title="View Source: demo7/TDDHashMap.java"><strong>demo7</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 7 (Qwen 3.8 max XHigh / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 88.5%;"></div></div> <strong>56.28</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -385,7 +388,7 @@
                 </tr>
                 <tr>
                     <td>#4</td>
-                    <td><strong>demo5</strong></td>
+                    <td><a href="sources/demo5/TDDHashMap.html" class="module-source-link" title="View Source: demo5/TDDHashMap.java"><strong>demo5</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 5 (DeepSeek V4 Flash Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 73.0%;"></div></div> <strong>46.42</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -397,7 +400,7 @@
                 </tr>
                 <tr>
                     <td>#5</td>
-                    <td><strong>demo6</strong></td>
+                    <td><a href="sources/demo6/TDDHashMap.html" class="module-source-link" title="View Source: demo6/TDDHashMap.java"><strong>demo6</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 6 (Claude Opus 5 Ultra / Claude)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 71.4%;"></div></div> <strong>45.39</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -409,7 +412,7 @@
                 </tr>
                 <tr>
                     <td>#6</td>
-                    <td><strong>demo8</strong></td>
+                    <td><a href="sources/demo8/TDDHashMap.html" class="module-source-link" title="View Source: demo8/TDDHashMap.java"><strong>demo8</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 8 (Gemini 3.7 Flash High / Kilo Code in VSCode)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 69.8%;"></div></div> <strong>44.38</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -421,7 +424,7 @@
                 </tr>
                 <tr>
                     <td>#7</td>
-                    <td><strong>demo3</strong></td>
+                    <td><a href="sources/demo3/TDDHashMap.html" class="module-source-link" title="View Source: demo3/TDDHashMap.java"><strong>demo3</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 3 (OpenAI 5.6 Sol Max / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 56.3%;"></div></div> <strong>35.81</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -433,7 +436,7 @@
                 </tr>
                 <tr>
                     <td>#8</td>
-                    <td><strong>demo4</strong></td>
+                    <td><a href="sources/demo4/TDDHashMap.html" class="module-source-link" title="View Source: demo4/TDDHashMap.java"><strong>demo4</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 4 (Gemma 4 31B Thinking / Kilo Code)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 55.9%;"></div></div> <strong>35.57</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
@@ -445,7 +448,7 @@
                 </tr>
                 <tr>
                     <td>#9</td>
-                    <td><strong>demo9</strong></td>
+                    <td><a href="sources/demo9/TDDHashMap.html" class="module-source-link" title="View Source: demo9/TDDHashMap.java"><strong>demo9</strong> <span class="code-icon">📄</span></a></td>
                     <td><span class="badge badge-primary">Demo 9 (Gemini 3.8 Flash High / Antigravity Agent natively)</span></td>
                     <td class="numeric"><div class="bar-container"><div class="bar-fill" style="width: 51.4%;"></div></div> <strong>32.68</strong></td>
                     <td class="numeric" style="color:var(--text-muted);">± 0.00</td>
